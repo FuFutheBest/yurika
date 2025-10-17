@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
 	lang: SITE_LANG,
 
 	themeColor: {
-		hue: 210, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		hue: 305, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
@@ -249,8 +249,8 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.png", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
-	name: "Mizuki",
+	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
+	name: "Matsuzaka Yuki",
 	bio: "The world is big, you have to go and see",
 	links: [
 		{
@@ -441,6 +441,10 @@ export const sakuraConfig: SakuraConfig = {
 		min: 0.5, // 樱花最小尺寸倍数
 		max: 1.1, // 樱花最大尺寸倍数
 	},
+	opacity: {
+		min: 0.3, // 樱花最小不透明度
+		max: 0.9, // 樱花最大不透明度
+	},
 	speed: {
 		horizontal: {
 			min: -1.7, // 水平移动速度最小值
@@ -451,6 +455,7 @@ export const sakuraConfig: SakuraConfig = {
 			max: 2.2, // 垂直移动速度最大值
 		},
 		rotation: 0.03, // 旋转速度
+		fadeSpeed: 0.03, // 消失速度，不应大于最小不透明度
 	},
 	zIndex: 100, // 层级，确保樱花在合适的层级显示
 };
