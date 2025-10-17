@@ -14,7 +14,6 @@ import type {
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 
-
 // 移除i18n导入以避免循环依赖
 
 // 定义站点语言
@@ -27,17 +26,49 @@ export const siteConfig: SiteConfig = {
 	lang: SITE_LANG,
 
 	themeColor: {
-		hue: 210, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		hue: 35, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
-	
+	// 特色页面开关配置(关闭不在使用的页面有助于提升SEO,关闭后直接在顶部导航删除对应的页面就行)
+	featurePages: {
+		anime: true, // 番剧页面开关
+		diary: true, // 日记页面开关
+		friends: true, // 友链页面开关
+		projects: true, // 项目页面开关
+		skills: true, // 技能页面开关
+		timeline: true, // 时间线页面开关
+		albums: true, // 相册页面开关
+	},
+
+	// 顶栏标题配置
+	navbarTitle: {
+		// 顶栏标题文本
+		text: "MizukiUI",
+		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
+		icon: "assets/home/home.png",
+	},
+
 	bangumi: {
 		userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
 
 	anime: {
 		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
+	},
+
+	// 文章列表布局配置
+	postListLayout: {
+		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
+		defaultMode: "grid",
+		// 是否允许用户切换布局
+		allowSwitch: true,
+	},
+
+	// 标签样式配置
+	tagStyle: {
+		// 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
+		useNewStyle: false,
 	},
 
 	banner: {
@@ -73,6 +104,12 @@ export const siteConfig: SiteConfig = {
 			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
 
 			interval: 1.5, // 轮播间隔时间（秒）
+		},
+
+		waves: {
+			enable: true, // 是否启用水波纹效果(这个功能比较吃性能)
+			performanceMode: false, // 性能模式：减少动画复杂度(性能提升40%)
+			mobileDisable: false, // 移动端禁用
 		},
 
 		// PicFlow API支持(智能图片API)
@@ -249,9 +286,13 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.png", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
-	name: "Mizuki",
+	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
+	name: "Matsuzaka Yuki",
 	bio: "The world is big, you have to go and see",
+	typewriter: {
+		enable: true, // 启用个人简介打字机效果
+		speed: 80, // 打字速度（毫秒）
+	},
 	links: [
 		{
 			name: "Bilibli",
@@ -267,6 +308,11 @@ export const profileConfig: ProfileConfig = {
 			name: "GitHub",
 			icon: "fa6-brands:github",
 			url: "https://github.com/matsuzaka-yuki",
+		},
+		{
+			name: "Codeberg",
+			icon: "simple-icons:codeberg",
+			url: "https://codeberg.org",
 		},
 		{
 			name: "Discord",
@@ -441,6 +487,10 @@ export const sakuraConfig: SakuraConfig = {
 		min: 0.5, // 樱花最小尺寸倍数
 		max: 1.1, // 樱花最大尺寸倍数
 	},
+	opacity: {
+		min: 0.3, // 樱花最小不透明度
+		max: 0.9, // 樱花最大不透明度
+	},
 	speed: {
 		horizontal: {
 			min: -1.7, // 水平移动速度最小值
@@ -451,6 +501,7 @@ export const sakuraConfig: SakuraConfig = {
 			max: 2.2, // 垂直移动速度最大值
 		},
 		rotation: 0.03, // 旋转速度
+		fadeSpeed: 0.03, // 消失速度，不应大于最小不透明度
 	},
 	zIndex: 100, // 层级，确保樱花在合适的层级显示
 };
@@ -492,7 +543,7 @@ export const widgetConfigs = {
 
 export const umamiConfig = {
 	enabled: false, // 是否显示Umami统计
-	apiKey: "api_XXXXXXXXXX", // 你的API密钥
+	apiKey: import.meta.env.UMAMI_API_KEY || "api_xxxxxxxx", // API密钥优先从环境变量读取，否则使用配置文件中的值
 	baseUrl: "https://api.umami.is", // Umami Cloud API地址
 	scripts: `
 <script defer src="XXXX.XXX" data-website-id="ABCD1234"></script>
