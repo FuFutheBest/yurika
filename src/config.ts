@@ -89,10 +89,6 @@ export const siteConfig: SiteConfig = {
         "/assets/mobile-banner/m2.webp",
         "/assets/mobile-banner/m3.webp",
         "/assets/mobile-banner/m4.webp",
-        "/assets/mobile-banner/m5.webp",
-        "/assets/mobile-banner/m6.webp",
-        "/assets/mobile-banner/m7.webp",
-        "/assets/mobile-banner/m8.webp",
       ], // 移动横幅图片
     }, // 使用本地横幅图片
 
