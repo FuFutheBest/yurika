@@ -20,8 +20,8 @@ import { LinkPreset } from "./types/config";
 const SITE_LANG = "en"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 
 export const siteConfig: SiteConfig = {
-  title: "Mizuki",
-  subtitle: "One demo website",
+  title: "Yurika",
+  subtitle: "Yurika Personal Blog",
 
   lang: SITE_LANG,
 
@@ -44,7 +44,7 @@ export const siteConfig: SiteConfig = {
   // 顶栏标题配置
   navbarTitle: {
     // 顶栏标题文本
-    text: "MizukiUI",
+    text: "YurikaUI",
     // 顶栏标题图标路径，默认使用 public/assets/home/home.png
     icon: "assets/home/home.png",
   },
@@ -120,13 +120,13 @@ export const siteConfig: SiteConfig = {
 
     homeText: {
       enable: true, // 在主页显示自定义文本
-      title: "Beautiful Mizuki!", // 主页横幅主标题
+      title: "Welcome to Yurika!", // 主页横幅主标题
 
       subtitle: [
-        "A Showcase Demo Site",
-        "Carousel Highlight: Innovation",
-        "Carousel Focus: User Experience",
-        "Carousel Spot: Core Advantages",
+        "A Place to Share My Thoughts",
+        "Exploring the World of Tech",
+        "Journey Through Code and Creativity",
+        "Insights on Life and Anime",
       ],
       typewriter: {
         enable: true, // 启用副标题打字机效果
@@ -219,22 +219,22 @@ export const navBarConfig: NavBarConfig = {
       children: [
         {
           name: "GitHub",
-          url: "https://github.com/matsuzaka-yuki/Mizuki",
+          url: "https://github.com/FuFutheBest",
           external: true,
           icon: "fa6-brands:github",
         },
-        {
-          name: "Bilibili",
-          url: "https://space.bilibili.com/701864046",
-          external: true,
-          icon: "fa6-brands:bilibili",
-        },
-        {
-          name: "Gitee",
-          url: "https://gitee.com/matsuzakayuki/Mizuki",
-          external: true,
-          icon: "mdi:git",
-        },
+        // {
+        //   name: "Bilibili",
+        //   url: "https://space.bilibili.com/701864046",
+        //   external: true,
+        //   icon: "fa6-brands:bilibili",
+        // },
+        // {
+        //   name: "Gitee",
+        //   url: "hitee.com/matsuzakayuki/Mizuki",
+        //   external: true,
+        //   icon: "mdi:git",
+        // },
       ],
     },
     {
@@ -284,37 +284,42 @@ export const navBarConfig: NavBarConfig = {
 
 export const profileConfig: ProfileConfig = {
   avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
-  name: "Matsuzaka Yuki",
-  bio: "The world is big, you have to go and see",
+  name: "FuFu",
+  bio: "The world is big, you have to go and see.",
   typewriter: {
     enable: true, // 启用个人简介打字机效果
     speed: 80, // 打字速度（毫秒）
   },
   links: [
-    {
-      name: "Bilibli",
-      icon: "fa6-brands:bilibili",
-      url: "https://space.bilibili.com/701864046",
-    },
-    {
-      name: "Gitee",
-      icon: "mdi:git",
-      url: "https://gitee.com/matsuzakayuki",
-    },
+    // {
+    //   name: "Bilibli",
+    //   icon: "fa6-brands:bilibili",
+    //   url: "https://space.bilibili.com/701864046",
+    // },
+    // {
+    //   name: "Gitee",
+    //   icon: "mdi:git",
+    //   url: "https://gitee.com/matsuzakayuki",
+    // },
     {
       name: "GitHub",
       icon: "fa6-brands:github",
-      url: "https://github.com/matsuzaka-yuki",
+      url: "https://github.com/FuFutheBest",
     },
-    {
-      name: "Codeberg",
-      icon: "simple-icons:codeberg",
-      url: "https://codeberg.org",
-    },
+    // {
+    //   name: "Codeberg",
+    //   icon: "simple-icons:codeberg",
+    //   url: "https://codeberg.org",
+    // },
     {
       name: "Discord",
       icon: "fa6-brands:discord",
-      url: "https://discord.gg/MqW6TcQtVM",
+      url: "https://discord.com/users/1353742732748783636",
+    },
+    {
+      name: "Email",
+      icon: "mdi:email",
+      url: "mailto:fuhongrui15@gmail.com",
     },
   ],
 };
