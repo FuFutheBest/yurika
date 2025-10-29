@@ -1,6 +1,6 @@
 ---
 title: Ghostbust Hotline
-published: 2025-01-20
+published: 2025-10-28
 pinned: true
 description: A 2D top-down dungeon-crawling shooter RPG featuring intense action and strategic gameplay.
 tags: [Project, Coding, GameDev]
