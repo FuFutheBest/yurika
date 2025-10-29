@@ -115,17 +115,16 @@ export const skillsData: Skill[] = [
   //   color: "#00DC82",
   // },
   // {
-  //   id: "astro",
-  //   name: "Astro",
-  //   description:
-  //     "A modern static site generator supporting multi-framework integration and excellent performance.",
-  //   icon: "logos:astro-icon",
-  //   category: "frontend",
-  //   level: "advanced",
-  //   experience: { years: 1, months: 2 },
-  //   projects: ["mizuki-blog"],
-  //   color: "#FF5D01",
-  // },
+    id: "astro",
+    name: "Astro",
+    description:
+      "A modern static site generator supporting multi-framework integration and excellent performance.",
+    icon: "logos:astro-icon",
+    category: "frontend",
+    level: "beginner",
+    experience: { years: 0, months: 1 },
+    color: "#FF5D01",
+  },
   // {
   //   id: "tailwindcss",
   //   name: "Tailwind CSS",
