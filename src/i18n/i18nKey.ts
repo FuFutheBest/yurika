@@ -43,6 +43,7 @@ enum I18nKey {
 	anime = "anime",
 	diary = "diary",
 	books = "books",
+	games = "games",
 
 	// 番剧页面
 	animeTitle = "animeTitle",
@@ -71,6 +72,20 @@ enum I18nKey {
 	booksEmpty = "booksEmpty",
 	booksEmptyBangumi = "booksEmptyBangumi",
 	booksEmptyLocal = "booksEmptyLocal",
+
+	// 游戏页面
+	gamesTitle = "gamesTitle",
+	gamesSubtitle = "gamesSubtitle",
+	gamesStatusPlaying = "gamesStatusPlaying",
+	gamesStatusCompleted = "gamesStatusCompleted",
+	gamesStatusPlanned = "gamesStatusPlanned",
+	gamesFilterAll = "gamesFilterAll",
+	gamesYear = "gamesYear",
+	gamesDeveloper = "gamesDeveloper",
+	gamesPlatform = "gamesPlatform",
+	gamesEmpty = "gamesEmpty",
+	gamesEmptyBangumi = "gamesEmptyBangumi",
+	gamesEmptyLocal = "gamesEmptyLocal",
 
 	// 短文页面
 	diarySubtitle = "diarySubtitle",

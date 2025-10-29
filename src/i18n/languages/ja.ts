@@ -45,6 +45,7 @@ export const ja: Translation = {
 	[Key.anime]: "アニメ",
 	[Key.diary]: "日記",
 	[Key.books]: "書籍",
+	[Key.games]: "ゲーム",
 
 	// アニメページ
 	[Key.animeTitle]: "私のアニメリスト",
@@ -77,6 +78,22 @@ export const ja: Translation = {
 		"Bangumiの設定またはネットワーク接続を確認してください",
 	[Key.booksEmptyLocal]:
 		"src/data/books.tsファイルに書籍情報を追加してください",
+
+	// ゲームページ
+	[Key.gamesTitle]: "私のゲームリスト",
+	[Key.gamesSubtitle]: "私のゲームの旅を記録する",
+	[Key.gamesStatusPlaying]: "プレイ中",
+	[Key.gamesStatusCompleted]: "クリア済み",
+	[Key.gamesStatusPlanned]: "予定",
+	[Key.gamesFilterAll]: "すべて",
+	[Key.gamesYear]: "年",
+	[Key.gamesDeveloper]: "開発元",
+	[Key.gamesPlatform]: "プラットフォーム",
+	[Key.gamesEmpty]: "ゲームデータなし",
+	[Key.gamesEmptyBangumi]:
+		"Bangumiの設定またはネットワーク接続を確認してください",
+	[Key.gamesEmptyLocal]:
+		"src/data/games.tsファイルにゲーム情報を追加してください",
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでもどこでも、生活を共有する",

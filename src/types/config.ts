@@ -26,6 +26,7 @@ export type SiteConfig = {
   featurePages: {
     anime: boolean; // 番剧页面开关
     books: boolean; // 书籍页面开关
+    games: boolean; // 游戏页面开关
     diary: boolean; // 日记页面开关
     friends: boolean; // 友链页面开关
     projects: boolean; // 项目页面开关
@@ -69,6 +70,11 @@ export type SiteConfig = {
   // 添加书籍页面配置
   books?: {
     mode?: "bangumi" | "local"; // 书籍页面模式
+  };
+
+  // 添加游戏页面配置
+  games?: {
+    mode?: "bangumi" | "local"; // 游戏页面模式
   };
 
   banner: {

@@ -45,6 +45,7 @@ export const en: Translation = {
 	[Key.anime]: "Anime",
 	[Key.diary]: "Diary",
 	[Key.books]: "Books",
+	[Key.games]: "Games",
 
 	// Anime Page
 	[Key.animeTitle]: "My Anime List",
@@ -77,6 +78,22 @@ export const en: Translation = {
 		"Please check Bangumi configuration or network connection",
 	[Key.booksEmptyLocal]:
 		"Please add book information in src/data/books.ts file",
+
+	// Games Page
+	[Key.gamesTitle]: "My Gaming List",
+	[Key.gamesSubtitle]: "Record my gaming journey",
+	[Key.gamesStatusPlaying]: "Playing",
+	[Key.gamesStatusCompleted]: "Completed",
+	[Key.gamesStatusPlanned]: "Planned",
+	[Key.gamesFilterAll]: "All",
+	[Key.gamesYear]: "Year",
+	[Key.gamesDeveloper]: "Developer",
+	[Key.gamesPlatform]: "Platform",
+	[Key.gamesEmpty]: "No games data",
+	[Key.gamesEmptyBangumi]:
+		"Please check Bangumi configuration or network connection",
+	[Key.gamesEmptyLocal]:
+		"Please add game information in src/data/games.ts file",
 
 	// Diary Page
 	[Key.diarySubtitle]: "Share life anytime, anywhere",

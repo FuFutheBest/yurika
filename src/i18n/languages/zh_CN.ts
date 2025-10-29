@@ -45,6 +45,7 @@ export const zh_CN: Translation = {
 	[Key.anime]: "追番",
 	[Key.diary]: "日记",
 	[Key.books]: "书籍",
+	[Key.games]: "游戏",
 
 	// 番剧页面
 	[Key.animeTitle]: "我的追番记录",
@@ -73,6 +74,20 @@ export const zh_CN: Translation = {
 	[Key.booksEmpty]: "暂无书籍数据",
 	[Key.booksEmptyBangumi]: "请检查 Bangumi 配置或网络连接",
 	[Key.booksEmptyLocal]: "请在 src/data/books.ts 文件中添加书籍信息",
+
+	// 游戏页面
+	[Key.gamesTitle]: "我的游戏记录",
+	[Key.gamesSubtitle]: "记录我的游戏之旅",
+	[Key.gamesStatusPlaying]: "在玩",
+	[Key.gamesStatusCompleted]: "已通关",
+	[Key.gamesStatusPlanned]: "想玩",
+	[Key.gamesFilterAll]: "全部",
+	[Key.gamesYear]: "年份",
+	[Key.gamesDeveloper]: "开发商",
+	[Key.gamesPlatform]: "平台",
+	[Key.gamesEmpty]: "暂无游戏数据",
+	[Key.gamesEmptyBangumi]: "请检查 Bangumi 配置或网络连接",
+	[Key.gamesEmptyLocal]: "请在 src/data/games.ts 文件中添加游戏信息",
 
 	// 短文页面
 	[Key.diarySubtitle]: "随时随地，分享生活",
