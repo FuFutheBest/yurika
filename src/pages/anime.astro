@@ -147,6 +147,7 @@ if (ANIME_MODE === "local") {
 	// 获取与处理在看列表（type=3）看过列表（type=2）
 	const watchingData = await fetchBangumiCollection(BANGUMI_USER_ID, 2, 3);
 	const completedData = await fetchBangumiCollection(BANGUMI_USER_ID, 2, 2);
+    const plannedData = await fetchBangumiCollection(BANGUMI_USER_ID, 2, 1);
 
 	const watchingList = watchingData
 		? await processBangumiData(watchingData, "watching")
@@ -154,8 +155,11 @@ if (ANIME_MODE === "local") {
 	const completedList = completedData
 		? await processBangumiData(completedData, "completed")
 		: [];
+    const plannedList = plannedData
+        ? await processBangumiData(plannedData, "planned")
+        : [];
 
-	animeList = [...watchingList, ...completedList];
+    animeList = [...watchingList, ...completedList, ...plannedList];
 }
 
 // 获取状态的翻译文本和样式
