@@ -30,6 +30,17 @@ export const skillsData: Skill[] = [
     experience: { years: 0, months: 6 },
     color: "#1293D8",
   },
+  {
+    id: "astro",
+    name: "Astro",
+    description:
+      "A modern static site generator supporting multi-framework integration and excellent performance.",
+    icon: "logos:astro-icon",
+    category: "frontend",
+    level: "beginner",
+    experience: { years: 0, months: 1 },
+    color: "#FF5D01",
+  },
   // {
   //   id: "javascript",
   //   name: "JavaScript",
@@ -114,17 +125,6 @@ export const skillsData: Skill[] = [
   //   projects: ["vue-ssr-app"],
   //   color: "#00DC82",
   // },
-  // {
-    id: "astro",
-    name: "Astro",
-    description:
-      "A modern static site generator supporting multi-framework integration and excellent performance.",
-    icon: "logos:astro-icon",
-    category: "frontend",
-    level: "beginner",
-    experience: { years: 0, months: 1 },
-    color: "#FF5D01",
-  },
   // {
   //   id: "tailwindcss",
   //   name: "Tailwind CSS",
