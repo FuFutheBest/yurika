@@ -44,6 +44,7 @@ export const zh_TW: Translation = {
 	[Key.license]: "許可協議",
 	[Key.anime]: "追番",
 	[Key.diary]: "日記",
+	[Key.books]: "書籍",
 
 	// 番劇頁面
 	[Key.animeTitle]: "我的追番記錄",
@@ -59,6 +60,19 @@ export const zh_TW: Translation = {
 	[Key.animeEmpty]: "暫無追番數據",
 	[Key.animeEmptyBangumi]: "請檢查 Bangumi 配置或網絡連接",
 	[Key.animeEmptyLocal]: "請在 src/data/anime.ts 文件中添加番劇信息",
+
+	// 書籍頁面
+	[Key.booksTitle]: "我的書單",
+	[Key.booksSubtitle]: "記錄我的閱讀之旅",
+	[Key.booksStatusReading]: "在讀",
+	[Key.booksStatusCompleted]: "讀過",
+	[Key.booksStatusPlanned]: "想讀",
+	[Key.booksFilterAll]: "全部",
+	[Key.booksYear]: "年份",
+	[Key.booksAuthor]: "作者",
+	[Key.booksEmpty]: "暫無書籍數據",
+	[Key.booksEmptyBangumi]: "請檢查 Bangumi 配置或網絡連接",
+	[Key.booksEmptyLocal]: "請在 src/data/books.ts 文件中添加書籍信息",
 
 	// 短文頁面
 	[Key.diarySubtitle]: "隨時隨地，分享生活",
@@ -150,7 +164,8 @@ export const zh_TW: Translation = {
 	[Key.atomBenefit2]: "在一個地方管理多個網站的訂閱",
 	[Key.atomBenefit3]: "避免錯過重要更新和文章",
 	[Key.atomBenefit4]: "享受無廣告的純淨閱讀體驗",
-	[Key.atomHowToUse]: "推薦使用 Feedly、Inoreader 或其他 Atom 閱讀器來訂閱本站。",
+	[Key.atomHowToUse]:
+		"推薦使用 Feedly、Inoreader 或其他 Atom 閱讀器來訂閱本站。",
 	[Key.atomCopied]: "Atom 鏈接已複製到剪貼板！",
 	[Key.atomCopyFailed]: "複製失敗，請手動複製鏈接",
 
@@ -206,7 +221,7 @@ export const zh_TW: Translation = {
 	[Key.projectsVisit]: "前往項目",
 	[Key.projectsGitHub]: "GitHub",
 	[Key.projectsGitee]: "Gitee",
-	
+
 	// 其他
 	[Key.noData]: "暫無數據",
 

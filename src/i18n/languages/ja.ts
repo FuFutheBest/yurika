@@ -44,6 +44,7 @@ export const ja: Translation = {
 	[Key.license]: "ライセンス",
 	[Key.anime]: "アニメ",
 	[Key.diary]: "日記",
+	[Key.books]: "書籍",
 
 	// アニメページ
 	[Key.animeTitle]: "私のアニメリスト",
@@ -61,6 +62,21 @@ export const ja: Translation = {
 		"Bangumiの設定またはネットワーク接続を確認してください",
 	[Key.animeEmptyLocal]:
 		"src/data/anime.tsファイルにアニメ情報を追加してください",
+
+	// 書籍ページ
+	[Key.booksTitle]: "私の読書リスト",
+	[Key.booksSubtitle]: "私の読書の旅を記録する",
+	[Key.booksStatusReading]: "読書中",
+	[Key.booksStatusCompleted]: "完了",
+	[Key.booksStatusPlanned]: "予定",
+	[Key.booksFilterAll]: "すべて",
+	[Key.booksYear]: "年",
+	[Key.booksAuthor]: "著者",
+	[Key.booksEmpty]: "書籍データなし",
+	[Key.booksEmptyBangumi]:
+		"Bangumiの設定またはネットワーク接続を確認してください",
+	[Key.booksEmptyLocal]:
+		"src/data/books.tsファイルに書籍情報を追加してください",
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでもどこでも、生活を共有する",
@@ -160,7 +176,8 @@ export const ja: Translation = {
 	[Key.atomHowToUse]:
 		"Feedly、Inoreaderまたは他のAtomリーダーを使用してこのサイトを購読することを推奨します。",
 	[Key.atomCopied]: "Atomリンクがクリップボードにコピーされました！",
-	[Key.atomCopyFailed]: "コピーに失敗しました。手動でリンクをコピーしてください",
+	[Key.atomCopyFailed]:
+		"コピーに失敗しました。手動でリンクをコピーしてください",
 
 	// スキルページ
 	[Key.skills]: "スキル",
@@ -214,7 +231,7 @@ export const ja: Translation = {
 	[Key.projectsVisit]: "プロジェクトへ",
 	[Key.projectsGitHub]: "GitHub",
 	[Key.projectsGitee]: "Gitee",
-	
+
 	// その他
 	[Key.noData]: "データなし",
 
