@@ -102,6 +102,10 @@ export const siteConfig: SiteConfig = {
         "/assets/mobile-banner/m2.webp",
         "/assets/mobile-banner/m3.webp",
         "/assets/mobile-banner/m4.webp",
+        "/assets/mobile-banner/m5.webp",
+        "/assets/mobile-banner/m6.webp",
+        "/assets/mobile-banner/m7.webp",
+        "/assets/mobile-banner/m8.webp",
       ], // 移动横幅图片
     }, // 使用本地横幅图片
 
@@ -233,12 +237,12 @@ export const navBarConfig: NavBarConfig = {
           external: true,
           icon: "fa6-brands:github",
         },
-        // {
-        //   name: "Bilibili",
-        //   url: "https://space.bilibili.com/701864046",
-        //   external: true,
-        //   icon: "fa6-brands:bilibili",
-        // },
+        {
+          name: "Bilibili",
+          url: "https://space.bilibili.com/1751965472",
+          external: true,
+          icon: "fa6-brands:bilibili",
+        },
         // {
         //   name: "Gitee",
         //   url: "hitee.com/matsuzakayuki/Mizuki",
@@ -312,11 +316,6 @@ export const profileConfig: ProfileConfig = {
   },
   links: [
     // {
-    //   name: "Bilibli",
-    //   icon: "fa6-brands:bilibili",
-    //   url: "https://space.bilibili.com/701864046",
-    // },
-    // {
     //   name: "Gitee",
     //   icon: "mdi:git",
     //   url: "https://gitee.com/matsuzakayuki",
@@ -325,6 +324,11 @@ export const profileConfig: ProfileConfig = {
       name: "GitHub",
       icon: "fa6-brands:github",
       url: "https://github.com/FuFutheBest",
+    },
+    {
+      name: "Bilibli",
+      icon: "fa6-brands:bilibili",
+      url: "https://space.bilibili.com/1751965472",
     },
     // {
     //   name: "Codeberg",
