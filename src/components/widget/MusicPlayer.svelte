@@ -82,6 +82,39 @@ const localPlaylist = [
 		url: "assets/music/url/Departures.mp3",
 		duration: 255,
     },
+	{
+		id: 3,
+		title: "リテラチュア",
+		artist: "上田 麗奈（うえだ れいな)",
+		cover: "assets/music/cover/Literature&Gray.jpg",
+		url: "assets/music/url/Literature.mp3",
+		duration: 92,
+    },
+
+	{
+		id: 4,
+		title: "灰色のサーガ",
+		artist: "ChouCho",
+		cover: "assets/music/cover/Literature&Gray.jpg",
+		url: "assets/music/url/Gray.mp3",
+		duration: 90,
+    },
+	{
+		id: 5,
+		title: "晴る",
+		artist: "EGOIST",
+		cover: "assets/music/cover/Sunny.png",
+		url: "assets/music/url/Sunny.mp3",
+		duration: 290,
+    },
+	{
+		id: 6,
+		title: "夏風に溶ける",
+		artist: "南雲ゆうき",
+		cover: "assets/music/cover/Melting_in_summer_breeze.jpg",
+		url: "assets/music/url/Melting_in_summer_breeze.mp3",
+		duration: 224,
+    },
 ];
 
 async function fetchMetingPlaylist() {
