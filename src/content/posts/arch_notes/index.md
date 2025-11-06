@@ -1,10 +1,10 @@
 ---
 title: Arch Notes
-published: 2025-01-29
+published: 2025-10-29
 pinned: true
 description: A collection of the problems and solutions I encountered while using Arch Linux.
 tags: [Linux, Arch, Hyprland, Configuration]
-category: Arch
+category: Linux
 licenseName: "Unlicensed"
 author: FuFu
 draft: false

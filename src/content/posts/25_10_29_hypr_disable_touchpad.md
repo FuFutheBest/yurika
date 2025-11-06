@@ -4,7 +4,7 @@ published: 2025-10-29
 pinned: false
 description: A guide on how to disable the touchpad in Hyprland using commands and configuration files.
 tags: [Hyprland, Linux, Arch, Configuration]
-category: Arch
+category: Linux
 licenseName: "Unlicensed"
 author: FuFu
 draft: false
