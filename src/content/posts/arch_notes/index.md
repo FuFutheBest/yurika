@@ -21,32 +21,32 @@ This blog will keep updating with the problems and solutions I encountered while
 ~> fastfetch -c ~/.config/fastfetch/safe_config.jsonc
                   -`                     ┌───────────────┬─────── fastfetch - 2.54.0 ────────────────────┐
                  .o+`                    │    Linux     │ Arch Linux x86_64                             │
-                `ooo/                    │    Fetched   │ 2025-10-29 21:01:59 CST                       │
+                `ooo/                    │    Fetched   │ 2025-11-09 22:02:35 CST                       │
                `+oooo:                   │    Locale    │ en_US.UTF-8                                   │
               `+oooooo:                  │┌──────────────┬─────────── Desktop ──────────────────────────┐│
-              -+oooooo+:                 ││   Session   │ Hyprland 0.51.1 (Wayland)                    ││
-            `/:-:++oooo+:                ││ 󰍹  Display   │ 2560x1440 @ 60Hz, 2560x1600 @ 240Hz          ││
-           `/++++/+++++++:               ││ 󰾲  G-Driver  │ nvidia (proprietary) 580.95.05               ││
+              -+oooooo+:                 ││   Session   │ Hyprland unknown (Wayland)                   ││
+            `/:-:++oooo+:                ││ 󰍹  Display   │ 2560x1600 @ 240Hz                            ││
+           `/++++/+++++++:               ││ 󰾲  G-Driver  │ nvidia (proprietary) 580.105.08              ││
           `/++++++++++++++:              ││ 󰾲  G-Driver  │ i915                                         ││
          `/+++ooooooooooooo/`            │└──────────────┴──────────────────────────────────────────────┘│
         ./ooosssso++osssssso+`           │┌──────────────┬─────────── Terminal ─────────────────────────┐│
        .oossssso-````/ossssss+`          ││   Shell     │ fish 4.1.2                                   ││
-      -osssssso.      :ssssssso.         ││   Terminal  │ kitty 0.43.1                                 ││
+      -osssssso.      :ssssssso.         ││   Terminal  │ kitty 0.44.0                                 ││
      :osssssss/        osssso+++.        ││   Term Font │ JetBrainsMonoNF-Regular (16pt)               ││
-    /ossssssss/        +ssssooo/-        ││ 󰔎  Colors    │ #EFD3C9 (FG) - #1D1A1A (BG) [Dark]           ││
-  `/ossssso+/:-        -:/+osssso+-      ││ 󰏖  Packages  │ 1946 (pacman), 32 (flatpak)                  ││
+    /ossssssss/        +ssssooo/-        ││ 󰔎  Colors    │ #EFD3C9 (FG) - #221819 (BG) [Dark]           ││
+  `/ossssso+/:-        -:/+osssso+-      ││ 󰏖  Packages  │ 1973 (pacman), 32 (flatpak)                  ││
  `+sso+:-`                 `.-/+oso:     │└──────────────┴──────────────────────────────────────────────┘│
 `++:.                           `-/+/    │┌──────────────┬───────── Development ────────────────────────┐│
-.`                                 `/    ││   Rust      │ rustc 1.90.0                                 ││
-                                         ││   Clang     │ clang 21.1.4                                 ││
-                                         ││   NodeJS    │ node 25.0.0                                  ││
-                                         ││   Go        │ go 1.25.3                                    ││
-                                         ││ 󰊢  Git       │ git 2.51.1                                   ││
+.`                                 `/    ││   Rust      │ rustc 1.91.0                                 ││
+                                         ││   Clang     │ clang 21.1.5                                 ││
+                                         ││   NodeJS    │ node 25.1.0                                  ││
+                                         ││   Go        │ go 1.25.4                                    ││
+                                         ││ 󰊢  Git       │ git 2.51.2                                   ││
                                          │└──────────────┴──────────────────────────────────────────────┘│
                                          └───────────────────────────────────────────────────────────────┘
 `````
 
-(last updated: 2025-10-29)
+(last updated: 2025-11-09)
 
 ## Grub
 
@@ -81,6 +81,10 @@ In short, the steps to enable Secure Boot in a dual-boot system with Arch Linux 
 #### How to Disable Touchpad ? (禁用触摸板)
 
 <a href="/posts/25_10_29_hypr_disable_touchpad/">Disable Touchpad in Hyprland</a>
+
+#### Updating Issues (更新相关问题)
+
+- <a href="/posts/25_11_09_update_to_hypr0.52.md">Dependency Issue when updating to Hyprland 0.52</a>
 
 ## Hardware
 
