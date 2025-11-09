@@ -1,9 +1,9 @@
 ---
-title: Encounter dependency issues when updating to Hyprland 0.52
+title: Dependency Issue when updating to Hyprland 0.52
 published: 2025-11-09
 pinned: false
-description: A note about solving dependency issues when updating to Hyprland 0.52 on Arch Linux.
-tags: [Hyprland, Linux, Arch, Configuration]
+description: Update Note to Hyprland 0.52.
+tags: [Update Note, Hyprland, Linux, Arch]
 category: Linux
 licenseName: "Unlicensed"
 author: FuFu
