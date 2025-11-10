@@ -57,8 +57,7 @@ However, the touchpad does not always appear under the "Touch" category; sometim
 
 ## Step 2: Disable the Touchpad
 
-#### Disable Touchpad only when Typing
-
+:::note
 If you only want to disable the touchpad while typing to avoid accidental cursor movements, you can add the following section to your Hyprland configuration file:
 
 如果您只想在打字时禁用触摸板以避免误触，可以将以下部分添加到您的 Hyprland 配置文件中：
@@ -72,6 +71,7 @@ input {
 ```
 
 More options for touchpad configuration can be found in the [Hyprland Wiki - Touchpad Variable](https://wiki.hypr.land/Configuring/Variables/#touchpad).
+:::
 
 ### Using hyprctl CLI
 
@@ -177,11 +177,15 @@ notify-send -u normal "$NOTIFMSG" # Send notification(delete this line if you do
 
 Save this script to a file, for example `touchpad_toggle.sh`, and make it executable with:
 
+保存此脚本到一个文件，例如 `touchpad_toggle.sh`，并通过以下命令使其可执行：
+
 ```bash
 chmod +x touchpad_toggle.sh
 ```
 
 The binding in the Hyprland configuration file would look like this:
+
+与之对应的 Hyprland 配置文件中的绑定如下所示：
 
 ```bash
 bind = Super+Alt, P, exec, /path/to/touchpad_toggle.sh # Toggle touchpad

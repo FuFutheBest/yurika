@@ -1,10 +1,10 @@
 ---
 title: Ghostbust Hotline
 published: 2025-10-28
-pinned: true
+pinned: false
 description: A 2D top-down dungeon-crawling shooter RPG featuring intense action and strategic gameplay.
 tags: [Project, Coding, GameDev]
-category: Web Development
+category: Project
 licenseName: "Unlicensed"
 author: FuFu
 sourceLink: "https://github.com/FuFutheBest/ENGR100/tree/main/project2"

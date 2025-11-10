@@ -100,7 +100,7 @@ You should now see that a partition block is marked as unallocated space.
 
 <img src="/posts/25_11_05_ubuntu_resize_disk/unallocated.png" alt="Windows Disk Management" width="60%">
 
-### Step 3: Resize the Partition
+## Step 3: Resize the Partition
 
 Now boot from the live USB into the Ubuntu environment. Open a terminal and use `sudo gparted` command to opne the `GNOME Partition Editor` as root.
 
