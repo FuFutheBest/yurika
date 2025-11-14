@@ -102,4 +102,5 @@ sudo pacman -S asusctl
 
 - [VPNs](https://arch.icekylin.online/guide/rookie/transparent.html#v2raya)
 - [Hogwarts](https://archlinuxstudio.github.io/ArchLinuxTutorial/#/rookie/fxckGFW?id=%e5%b7%b2%e6%9c%89%e7%a7%91%e5%ad%a6%e4%b8%8a%e7%bd%91%e7%9a%84%e8%8a%82%e7%82%b9%e7%9a%84%e6%83%85%e5%86%b5)
+- [VPS](https://blog.hill-q.com/posts/hy2/)
 - [Modern Privacy Protection](https://archlinuxstudio.github.io/ModernSecurityProtectionGuide/#/)
