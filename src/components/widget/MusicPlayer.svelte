@@ -74,8 +74,16 @@ const localPlaylist = [
 		url: "assets/music/url/Lily.mp3",
 		duration: 257,
 	},
+    {
+        id: 2,
+        title: "Beautiful World",
+        artist: "宇多田ヒカル (Hikaru Utada)",
+        cover: "assets/music/cover/Beautiful_World.jpg",
+        url: "assets/music/url/Beautiful_World.mp3",
+        duration: 314,
+    },
 	{
-		id: 2,
+		id: 3,
 		title: "Departures 〜あなたにお",
 		artist: "EGOIST",
 		cover: "assets/music/cover/Departures.jpg",
@@ -83,7 +91,7 @@ const localPlaylist = [
 		duration: 255,
     },
 	{
-		id: 3,
+		id: 4,
 		title: "リテラチュア",
 		artist: "上田 麗奈（うえだ れいな)",
 		cover: "assets/music/cover/Literature&Gray.jpg",
@@ -92,7 +100,7 @@ const localPlaylist = [
     },
 
 	{
-		id: 4,
+		id: 5,
 		title: "灰色のサーガ",
 		artist: "ChouCho",
 		cover: "assets/music/cover/Literature&Gray.jpg",
@@ -100,7 +108,7 @@ const localPlaylist = [
 		duration: 90,
     },
 	{
-		id: 5,
+		id: 6,
 		title: "晴る",
 		artist: "EGOIST",
 		cover: "assets/music/cover/Sunny.png",
@@ -108,7 +116,7 @@ const localPlaylist = [
 		duration: 290,
     },
 	{
-		id: 6,
+		id: 7,
 		title: "夏風に溶ける",
 		artist: "南雲ゆうき",
 		cover: "assets/music/cover/Melting_in_summer_breeze.jpg",
