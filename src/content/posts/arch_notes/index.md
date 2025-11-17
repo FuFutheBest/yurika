@@ -19,34 +19,34 @@ This blog will keep updating with the problems and solutions I encountered while
 
 `````bash
 ~> fastfetch -c ~/.config/fastfetch/safe_config.jsonc
-                  -`                     ┌───────────────┬─────── fastfetch - 2.54.0 ────────────────────┐
+
+                  -`                     ┌───────────────┬─────── fastfetch - 2.55.0 ────────────────────┐
                  .o+`                    │    Linux     │ Arch Linux x86_64                             │
-                `ooo/                    │    Fetched   │ 2025-11-09 22:02:35 CST                       │
+                `ooo/                    │    Fetched   │ 2025-11-15 15:58:47 CST                       │
                `+oooo:                   │    Locale    │ en_US.UTF-8                                   │
               `+oooooo:                  │┌──────────────┬─────────── Desktop ──────────────────────────┐│
-              -+oooooo+:                 ││   Session   │ Hyprland unknown (Wayland)                   ││
+              -+oooooo+:                 ││   Session   │ Hyprland 0.52.1 (Wayland)                    ││
             `/:-:++oooo+:                ││ 󰍹  Display   │ 2560x1600 @ 240Hz                            ││
            `/++++/+++++++:               ││ 󰾲  G-Driver  │ nvidia (proprietary) 580.105.08              ││
           `/++++++++++++++:              ││ 󰾲  G-Driver  │ i915                                         ││
          `/+++ooooooooooooo/`            │└──────────────┴──────────────────────────────────────────────┘│
         ./ooosssso++osssssso+`           │┌──────────────┬─────────── Terminal ─────────────────────────┐│
-       .oossssso-````/ossssss+`          ││   Shell     │ fish 4.1.2                                   ││
+       .oossssso-````/ossssss+`          ││   Shell     │ fish 4.2.1                                   ││
       -osssssso.      :ssssssso.         ││   Terminal  │ kitty 0.44.0                                 ││
      :osssssss/        osssso+++.        ││   Term Font │ JetBrainsMonoNF-Regular (16pt)               ││
-    /ossssssss/        +ssssooo/-        ││ 󰔎  Colors    │ #EFD3C9 (FG) - #221819 (BG) [Dark]           ││
-  `/ossssso+/:-        -:/+osssso+-      ││ 󰏖  Packages  │ 1973 (pacman), 32 (flatpak)                  ││
- `+sso+:-`                 `.-/+oso:     │└──────────────┴──────────────────────────────────────────────┘│
-`++:.                           `-/+/    │┌──────────────┬───────── Development ────────────────────────┐│
-.`                                 `/    ││   Rust      │ rustc 1.91.0                                 ││
-                                         ││   Clang     │ clang 21.1.5                                 ││
-                                         ││   NodeJS    │ node 25.1.0                                  ││
+    /ossssssss/        +ssssooo/-        ││ 󰏖  Packages  │ 1910 (pacman), 22 (flatpak)                  ││
+  `/ossssso+/:-        -:/+osssso+-      │└──────────────┴──────────────────────────────────────────────┘│
+ `+sso+:-`                 `.-/+oso:     │┌──────────────┬───────── Development ────────────────────────┐│
+`++:.                           `-/+/    ││   Rust      │ rustc 1.91.1                                 ││
+.`                                 `/    ││   Clang     │ clang 21.1.5                                 ││
+                                         ││   NodeJS    │ node 25.2.0                                  ││
                                          ││   Go        │ go 1.25.4                                    ││
                                          ││ 󰊢  Git       │ git 2.51.2                                   ││
                                          │└──────────────┴──────────────────────────────────────────────┘│
                                          └───────────────────────────────────────────────────────────────┘
 `````
 
-(last updated: 2025-11-09)
+(last updated: 2025-11-15)
 
 ## Grub
 
@@ -81,6 +81,26 @@ In short, the steps to enable Secure Boot in a dual-boot system with Arch Linux 
 #### How to Disable Touchpad ? (禁用触摸板)
 
 <a href="/posts/25_10_29_hypr_disable_touchpad/">Disable Touchpad in Hyprland</a>
+
+#### Fail to launch Timeshift with Hyprland (Hyprland 下无法启动 Timeshift)
+
+logs:
+
+```bash
+/usr/bin/timeshift-launcher: line 16: xhost: command not found
+Authorization required, but no authorization protocol specified
+
+
+(timeshift-gtk:41495): Gtk-WARNING **: 15:57:06.995: cannot open display: :0
+/usr/bin/timeshift-launcher: line 18: xhost: command not found
+/usr/bin/timeshift-launcher: line 19: xhost: command not found
+```
+
+Solution:
+
+```bash
+sudo pacman -S xorg-xhost
+```
 
 #### Updating Issues (更新相关问题)
 
