@@ -2,8 +2,8 @@
 title: Lidar Extrinsic Calibration
 published: 2025-11-17
 pinned: false
-# encrypted: true
-# password: "cwlm"
+encrypted: true
+password: "cwlm"
 description: Robot Master Lidar Extrinsic Calibration Note.
 tags: [lidar]
 category: Robot Master
