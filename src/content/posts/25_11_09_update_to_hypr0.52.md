@@ -16,7 +16,7 @@ When updating to [Hyprland 0.52](https://hypr.land/news/update52/), I encountere
 
 在更新到 [Hyprland 0.52](https://hypr.land/news/update52/) 时，我遇到了与将 `hyprland-qtutils` 替换为 `hyprland-guiutils` 相关的依赖问题。
 
-```bash
+```sh
 ~> sudo pacman -Syu
 :: Synchronizing package databases...
 :: Starting full system upgrade...

@@ -40,7 +40,7 @@ Boot into your Ubuntu system and open a terminal. Use `lsblk` (list block device
 
 启动到您的 Ubuntu 系统并打开终端。使用 `lsblk` 命令列出所有可用的磁盘和分区。
 
-```bash
+```sh
 # sample output
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
 nvme0n1     259:0    0 476.9G  0 disk                # Main NVMe SSD

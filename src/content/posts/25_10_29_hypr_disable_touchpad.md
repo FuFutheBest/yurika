@@ -19,7 +19,7 @@ Hyprland 是一个动态平铺的 Wayland 合成器，提供了广泛的自定�
 
 ## Step 1: Identify Your Touchpad Device
 
-```bash
+```sh
 hyprctl devices
 ```
 
@@ -32,7 +32,7 @@ Find the device that contains "touchpad" in its name and note down its name.
 
 sample output:
 
-```bash
+```sh
 Mouse at 55d441d40460:
 	asuf1207:00-2808:0219-touchpad  # Device name: asuf1207:00-2808:0219-touchpad
 		default speed: 0.00000
@@ -62,7 +62,7 @@ If you only want to disable the touchpad while typing to avoid accidental cursor
 
 如果您只想在打字时禁用触摸板以避免误触，可以将以下部分添加到您的 Hyprland 配置文件中：
 
-```bash
+```sh
 input {
     touchpad {
         disable_while_typing = true
@@ -79,7 +79,7 @@ Use the following command to disable the touchpad by replacing `<device_name>` w
 
 使用以下命令禁用触摸板，将`<device_name>`替换为在步骤 1 中识别的实际触摸板设备名称。
 
-```bash
+```sh
 hyprctl keyword 'device[<device_name>]:enabled' 'false'
 ```
 
@@ -92,7 +92,7 @@ The following example maps the key combination `Super + Alt + P` to disable the 
 
 另外，您也可以通过将一行添加到您的 Hyprland 配置文件（通常位于`~/.config/hypr/hyprland.conf`）中来禁用触摸板。以下示例将键组合`Super + Alt + P`映射为禁用触摸板，`Ctrl + Super + Alt + P`则重新启用它。
 
-```bash
+```sh
 bind = Super+Alt, P, exec, hyprctl keyword 'device[<device_name>]:enabled' 'false' # Disable touchpad
 bind = Ctrl+Super+Alt, P, exec, hyprctl keyword 'device[<device_name>]:enabled' 'true' # Enable touchpad
 ```
@@ -103,7 +103,7 @@ Here, `bind` is used to create key bindings. `exec` indicates that the following
 
 #### Create a Toggle Script
 
-```bash
+```sh
 #!/usr/bin/env bash
 
 #
@@ -179,7 +179,7 @@ Save this script to a file, for example `touchpad_toggle.sh`, and make it execut
 
 保存此脚本到一个文件，例如 `touchpad_toggle.sh`，并通过以下命令使其可执行：
 
-```bash
+```sh
 chmod +x touchpad_toggle.sh
 ```
 
@@ -187,7 +187,7 @@ The binding in the Hyprland configuration file would look like this:
 
 与之对应的 Hyprland 配置文件中的绑定如下所示：
 
-```bash
+```sh
 bind = Super+Alt, P, exec, /path/to/touchpad_toggle.sh # Toggle touchpad
 ```
 

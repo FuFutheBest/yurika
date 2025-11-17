@@ -17,7 +17,7 @@ This blog will keep updating with the problems and solutions I encountered while
 
 ## System Info
 
-`````bash
+`````sh
 ~> fastfetch -c ~/.config/fastfetch/safe_config.jsonc
 
                   -`                     ┌───────────────┬─────── fastfetch - 2.55.0 ────────────────────┐
@@ -86,7 +86,7 @@ In short, the steps to enable Secure Boot in a dual-boot system with Arch Linux 
 
 logs:
 
-```bash
+```sh
 /usr/bin/timeshift-launcher: line 16: xhost: command not found
 Authorization required, but no authorization protocol specified
 
@@ -98,8 +98,16 @@ Authorization required, but no authorization protocol specified
 
 Solution:
 
-```bash
+```sh
 sudo pacman -S xorg-xhost
+```
+
+#### AUR Wechat can't use fcitx5 input method (AUR 微信无法使用 fcitx5 输入法)
+
+Edit `/usr/share/applications/wechat.desktop`
+
+```sh
+Exec=env QT_QPA_PLATFORM=xcb GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx /opt/wechat/wechat %U
 ```
 
 #### Updating Issues (更新相关问题)
@@ -110,7 +118,7 @@ sudo pacman -S xorg-xhost
 
 #### The keyboard backlight and the back light strip on my ASUS laptop are not working. (华硕笔记本键盘背光和背光条不工作)
 
-```bash
+```sh
 sudo pacman -S asusctl
 ```
 
