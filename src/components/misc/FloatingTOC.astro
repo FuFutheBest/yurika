@@ -329,7 +329,7 @@ for (const heading of headings) {
     window.activeHeadingId = "";
     window.observer = null;
     window.minDepth = 10;
-    window.maxLevel = 3; // 默认显示3级标题
+    window.maxLevel = window.siteConfig?.toc?.depth || 3; // 从配置读取目录深度
     window.scrollTimeout = null; // 滚动节流定时器
   }
 
@@ -620,6 +620,17 @@ for (const heading of headings) {
         return;
       }
 
+      // 日语片假名数组
+      const japaneseHiragana = ['ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'キ', 'ク', 'ケ', 'コ', 'サ', 'シ', 'ス', 'セ', 'ソ', 'タ', 'チ', 'ツ', 'テ', 'ト'];
+      
+      // 获取配置中的useJapaneseBadge和depth选项
+      const useJapaneseBadge = window.siteConfig?.toc?.useJapaneseBadge || false;
+      const tocDepth = window.siteConfig?.toc?.depth || 3;
+      
+      // 更新maxLevel为配置值
+      maxLevel = tocDepth;
+      window.maxLevel = tocDepth;
+
       let tocHTML = "";
       let heading1Count = 1;
       filteredHeadings.forEach((heading) => {
@@ -634,12 +645,20 @@ for (const heading of headings) {
         }
 
         // 使用与旧版TOC相同的徽章样式
-        const badgeContent =
-          depth === minDepth
-            ? heading1Count++
-            : depth === minDepth + 1
-              ? '<div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div>'
-              : '<div class="transition w-1.5 h-1.5 rounded-sm bg-black/5 dark:bg-white/10"></div>';
+        let badgeContent;
+        if (depth === minDepth) {
+          // 如果启用日语假名，将数字转换为日语假名
+          if (useJapaneseBadge && heading1Count - 1 < japaneseHiragana.length) {
+            badgeContent = japaneseHiragana[heading1Count - 1];
+          } else {
+            badgeContent = heading1Count;
+          }
+          heading1Count++;
+        } else if (depth === minDepth + 1) {
+          badgeContent = '<div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div>';
+        } else {
+          badgeContent = '<div class="transition w-1.5 h-1.5 rounded-sm bg-black/5 dark:bg-white/10"></div>';
+        }
 
         tocHTML += `
          <a 
