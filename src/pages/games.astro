@@ -1,0 +1,444 @@
+---
+import ImageWrapper from "../components/misc/ImageWrapper.astro";
+import { siteConfig } from "../config";
+import localGamesList from "../data/games";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+// 检查游戏页面是否启用
+if (!siteConfig.featurePages.games) {
+	return Astro.redirect("/404/");
+}
+
+// Bangumi API配置
+const BANGUMI_USER_ID = siteConfig.bangumi?.userId || "your-user-id";
+const BANGUMI_API_BASE = "https://api.bgm.tv";
+
+// 获取游戏数据模式
+const GAMES_MODE = siteConfig.games?.mode || "bangumi";
+
+// 获取单个条目相关人员信息
+async function fetchSubjectPersons(subjectId: number) {
+	try {
+		const response = await fetch(
+			`${BANGUMI_API_BASE}/v0/subjects/${subjectId}/persons`,
+		);
+		const data = await response.json();
+		return Array.isArray(data) ? data : [];
+	} catch (error) {
+		console.error(`Error fetching subject ${subjectId} persons:`, error);
+		return [];
+	}
+}
+
+// 获取Bangumi收藏列表
+async function fetchBangumiCollection(
+	userId: string,
+	subjectType: number,
+	type: number,
+) {
+	try {
+		let allData: any[] = [];
+		let offset = 0;
+		const limit = 50;
+		let hasMore = true;
+
+		while (hasMore) {
+			const response = await fetch(
+				`${BANGUMI_API_BASE}/v0/users/${userId}/collections?subject_type=${subjectType}&type=${type}&limit=${limit}&offset=${offset}`,
+			);
+			if (!response.ok) {
+				throw new Error(`Bangumi API error: ${response.status}`);
+			}
+			const data = await response.json();
+
+			if (data.data && data.data.length > 0) {
+				allData = [...allData, ...data.data];
+			}
+			if (!data.data || data.data.length < limit) {
+				hasMore = false;
+			} else {
+				offset += limit;
+			}
+			await new Promise((resolve) => setTimeout(resolve, 100));
+		}
+		return { data: allData };
+	} catch (error) {
+		console.error("Error fetching Bangumi data:", error);
+		return null;
+	}
+}
+
+// 获取Bangumi数据转换为页面所需格式
+async function processBangumiData(data: any, status: string) {
+	if (!data || !data.data) return [];
+
+	const detailedItems = await Promise.all(
+		data.data.map(async (item: any) => {
+			const subjectPersons = await fetchSubjectPersons(item.subject_id);
+			const year = item.subject?.date || "Unknown";
+			const rating = item.rate ? Number.parseFloat(item.rate.toFixed(1)) : 0;
+			const progress = item.ep_status || 0;
+			const totalProgress = item.subject?.eps || progress || 100;
+
+			let developer = "Unknown";
+			if (Array.isArray(subjectPersons)) {
+				const priorities = ["开发", "開発", "制作", "製作"];
+				for (const relation of priorities) {
+					const match = subjectPersons.find(
+						(person) => person.relation === relation,
+					);
+					if (match?.name) {
+						developer = match.name;
+						break;
+					}
+				}
+			}
+
+			return {
+				title: item.subject?.name_cn || item.subject?.name || "Unknown Title",
+				status: status,
+				rating: rating,
+				cover: item.subject?.images?.medium || "/assets/games/default.webp",
+				description: (
+					item.subject?.short_summary ||
+					item.subject?.name_cn ||
+					""
+				).trimStart(),
+				platform: item.subject?.platform || "Unknown",
+				year: year,
+				genre: item.subject?.tags
+					? item.subject.tags.slice(0, 3).map((tag: any) => tag.name)
+					: ["Unknown"],
+				developer: developer,
+				link: `https://bgm.tv/subject/${item.subject.id}` || "#",
+				progress: progress,
+				totalProgress: totalProgress,
+				startDate: item.subject?.date || "",
+				endDate: item.subject?.date || "",
+			};
+		}),
+	);
+	return detailedItems;
+}
+
+// 根据模式获取游戏列表
+let gamesList: typeof localGamesList = [];
+if (GAMES_MODE === "local") {
+	gamesList = localGamesList;
+} else {
+	// 使用Bangumi API，subjectType=4 代表游戏
+	const playingData = await fetchBangumiCollection(BANGUMI_USER_ID, 4, 3);
+	const completedData = await fetchBangumiCollection(BANGUMI_USER_ID, 4, 2);
+	const plannedData = await fetchBangumiCollection(BANGUMI_USER_ID, 4, 1);
+
+	const playingList = playingData
+		? await processBangumiData(playingData, "playing")
+		: [];
+	const completedList = completedData
+		? await processBangumiData(completedData, "completed")
+		: [];
+	const plannedList = plannedData
+		? await processBangumiData(plannedData, "planned")
+		: [];
+
+	gamesList = [...playingList, ...completedList, ...plannedList];
+}
+
+// 获取状态的翻译文本和样式
+function getStatusInfo(status: string) {
+	switch (status) {
+		case "playing":
+			return {
+				text: i18n(I18nKey.gamesStatusPlaying),
+				class:
+					"bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+				icon: "🎮",
+			};
+		case "completed":
+			return {
+				text: i18n(I18nKey.gamesStatusCompleted),
+				class:
+					"bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+				icon: "✓",
+			};
+		case "planned":
+			return {
+				text: i18n(I18nKey.gamesStatusPlanned),
+				class:
+					"bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+				icon: "⏰",
+			};
+		default:
+			return {
+				text: status,
+				class: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+				icon: "?",
+			};
+	}
+}
+
+// 计算统计数据
+const stats = {
+	total: gamesList.length,
+	playing: gamesList.filter((game) => game.status === "playing").length,
+	completed: gamesList.filter((game) => game.status === "completed").length,
+	avgRating: (() => {
+		const ratedGames = gamesList.filter((game) => game.rating > 0);
+		if (ratedGames.length === 0) return "0.0";
+		return (
+			ratedGames.reduce((sum, game) => sum + game.rating, 0) / ratedGames.length
+		).toFixed(1);
+	})(),
+};
+---
+
+<MainGridLayout title={i18n(I18nKey.games)} description={i18n(I18nKey.gamesSubtitle)}>
+  <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+    <div class="card-base z-10 px-9 py-6 relative w-full">
+      <!-- 页面标题 -->
+      <div class="relative w-full mb-8">
+        <div class="mb-6">
+          <h1 class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+                    before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+            {i18n(I18nKey.gamesTitle)}
+          </h1>
+          <p class="text-black/75 dark:text-white/75">{i18n(I18nKey.gamesSubtitle)}</p>
+        </div>
+        
+        <!-- 过滤按钮 -->
+        <div class="mb-6">
+          <div class="filter-container flex flex-wrap gap-2">
+            <button class="filter-tag active" data-status="all">{i18n(I18nKey.gamesFilterAll)}</button>
+            <button class="filter-tag" data-status="playing">{i18n(I18nKey.gamesStatusPlaying)}</button>
+            <button class="filter-tag" data-status="completed">{i18n(I18nKey.gamesStatusCompleted)}</button>
+            <button class="filter-tag" data-status="planned">{i18n(I18nKey.gamesStatusPlanned)}</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 游戏列表 -->
+      <div class="mb-8">
+        {GAMES_MODE !== 'local' && BANGUMI_USER_ID === 'your-user-id' ? (
+          <div class="text-center py-12">
+            <div class="text-5xl mb-4">😢</div>
+            <h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+              {i18n(I18nKey.gamesEmpty)}
+            </h3>
+            <p class="text-black/60 dark:text-white/60">
+              请在 src/config.ts 文件中设置你的 Bangumi 用户ID
+            </p>
+          </div>
+        ) : gamesList.length > 0 ? (
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+            {gamesList.map(game => {
+              const statusInfo = getStatusInfo(game.status);
+              const progressPercent = game.totalProgress > 0 ? (game.progress / game.totalProgress) * 100 : 0;
+              
+              return (
+                <div class="group relative bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02]" data-game-status={game.status}>
+                  <!-- 封面区域 -->
+                  <div class="relative aspect-[3/4] overflow-hidden">
+                    <a href={game.link} target="_blank" rel="noopener noreferrer" class="block w-full h-full">
+                      <ImageWrapper 
+                        src={game.cover} 
+                        alt={game.title}
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                          <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    
+                    <!-- 状态标签 -->
+                    <div class={`absolute top-2 left-2 px-2 py-1 rounded-md text-xs font-medium ${statusInfo.class}`}>
+                      <span class="mr-1">{statusInfo.icon}</span>
+                      <span>{statusInfo.text}</span>
+                    </div>
+                    
+                    <!-- 评分 -->
+                    <div class="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1">
+                      <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                      <span>{game.rating}</span>
+                    </div>
+                    
+                    <!-- 进度条 -->
+                    {game.status === 'playing' && game.totalProgress > 0 && (
+                      <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+                        <div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
+                          <div class="bg-gradient-to-r from-purple-400 to-pink-400 h-1.5 rounded-full transition-all duration-300" style={`width: ${progressPercent}%`}></div>
+                        </div>
+                        <div class="text-white text-xs font-medium">
+                          {Math.round(progressPercent)}% 完成
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <!-- 内容区域 -->
+                  <div class="p-3">
+                    <h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 line-clamp-2 leading-tight">{game.title}</h3>
+                    <p class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2">{game.description}</p>
+                    
+                    <!-- 详细信息 -->
+                    <div class="space-y-1 text-xs">
+                      <div class="flex justify-between">
+                        <span class="text-black/50 dark:text-white/50">{i18n(I18nKey.gamesYear)}</span>
+                        <span class="text-black/70 dark:text-white/70">{game.year}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-black/50 dark:text-white/50">{i18n(I18nKey.gamesDeveloper)}</span>
+                        <span class="text-black/70 dark:text-white/70 truncate ml-2">{game.developer}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-black/50 dark:text-white/50">{i18n(I18nKey.gamesPlatform)}</span>
+                        <span class="text-black/70 dark:text-white/70 truncate ml-2">{game.platform}</span>
+                      </div>
+                      <div class="flex flex-wrap gap-1 mt-2">
+                        {game.genre.map(g => (
+                          <span class="px-1.5 py-0.5 bg-[var(--btn-regular-bg)] text-black/70 dark:text-white/70 rounded text-xs">{g}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div class="text-center py-12">
+            <div class="text-5xl mb-4">😢</div>
+            <h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+              {i18n(I18nKey.gamesEmpty)}
+            </h3>
+            <p class="text-black/60 dark:text-white/60">
+              {GAMES_MODE === 'local' ? i18n(I18nKey.gamesEmptyLocal) : i18n(I18nKey.gamesEmptyBangumi)}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <!-- 过滤按钮样式 -->
+  <style>
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .filter-tag {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--line-divider);
+      border-radius: var(--radius-large);
+      background: var(--btn-regular-bg);
+      color: var(--btn-content);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    
+    .filter-tag:hover:not(.active) {
+      background: var(--btn-hover-bg);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    
+    .filter-tag.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .filter-tag.active:hover {
+      background: var(--primary) !important;
+      color: white !important;
+      border-color: var(--primary) !important;
+      transform: translateY(-1px);
+    }
+  </style>
+
+  <!-- 过滤功能脚本 -->
+  <script is:inline>
+    let filterEventListeners = [];
+    
+    function initFilterButtons() {
+      const filterTags = document.querySelectorAll('.filter-tag');
+      
+      filterEventListeners.forEach(listener => {
+        const [element, type, handler] = listener;
+        element.removeEventListener(type, handler);
+      });
+      filterEventListeners = [];
+      
+      filterTags.forEach(tag => {
+        const clickHandler = function() {
+          filterTags.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          const status = this.getAttribute('data-status');
+          const gameItems = document.querySelectorAll('[data-game-status]');
+          
+          gameItems.forEach(item => {
+            if (status === 'all') {
+              item.classList.remove('hidden');
+            } else {
+              const itemStatus = item.getAttribute('data-game-status');
+              if (itemStatus === status) {
+                item.classList.remove('hidden');
+              } else {
+                item.classList.add('hidden');
+              }
+            }
+          });
+        };
+        
+        tag.addEventListener('click', clickHandler);
+        filterEventListeners.push([tag, 'click', clickHandler]);
+      });
+      
+      console.log('Games filter buttons initialized');
+    }
+    
+    document.addEventListener('DOMContentLoaded', initFilterButtons);
+    
+    function setupSwupListeners() {
+      if (window.swup) {
+        window.swup.hooks.on('content:replace', function() {
+          setTimeout(initFilterButtons, 150);
+        });
+        
+        window.swup.hooks.on('page:view', function() {
+          setTimeout(initFilterButtons, 150);
+        });
+        
+        window.swup.hooks.on('animation:in:end', function() {
+          setTimeout(initFilterButtons, 200);
+        });
+      }
+    }
+    
+    if (typeof window !== 'undefined') {
+      if (window.swup) {
+        setupSwupListeners();
+      } else {
+        document.addEventListener('swup:enable', function() {
+          setupSwupListeners();
+        });
+      }
+    }
+  </script>
+</MainGridLayout>
