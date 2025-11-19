@@ -30,7 +30,7 @@ export const siteConfig: SiteConfig = {
   lang: SITE_LANG,
 
   themeColor: {
-    hue: 230, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+    hue: 245, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
     fixed: false, // 对访问者隐藏主题色选择器
   },
 
@@ -45,7 +45,7 @@ export const siteConfig: SiteConfig = {
     skills: true, // 技能页面开关
     timeline: false, // 时间线页面开关
     albums: true, // 相册页面开关
-    devices: false, // 设备页面开关
+    devices: true, // 设备页面开关
   },
 
   // 顶栏标题配置
@@ -84,13 +84,13 @@ export const siteConfig: SiteConfig = {
   // 标签样式配置
   tagStyle: {
     // 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
-    useNewStyle: false,
+    useNewStyle: true,
   },
 
   // 壁纸模式配置
   wallpaperMode: {
     // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-    defaultMode: "banner",
+    defaultMode: "none",
     // 整体布局方案切换按钮显示设置（默认："desktop"）
     // "off" = 不显示
     // "mobile" = 仅在移动端显示
@@ -367,7 +367,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
   avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
   name: "FuFu",
-  bio: "The world is big, you have to go and see",
+  bio: "Cherishing every moment of life and sharing joy through code and creativity.",
   typewriter: {
     enable: true, // 启用个人简介打字机效果
     speed: 80, // 打字速度（毫秒）
