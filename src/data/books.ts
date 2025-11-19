@@ -1,7 +1,7 @@
 // 本地书籍数据配置
 export type BookItem = {
 	title: string;
-	status: "reading" | "completed" | "planned";
+	status: "reading" | "completed" | "planned" | "onhold" | "dropped";
 	rating: number;
 	cover: string;
 	description: string;

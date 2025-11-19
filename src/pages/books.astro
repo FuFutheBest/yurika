@@ -1,6 +1,6 @@
 ---
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
-import { siteConfig } from "../config";
+import { sidebarLayoutConfig, siteConfig } from "../config";
 import localBooksList from "../data/books";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
@@ -18,8 +18,32 @@ const BANGUMI_API_BASE = "https://api.bgm.tv";
 // 获取书籍数据模式
 const BOOKS_MODE = siteConfig.books?.mode || "bangumi";
 
+// 检查是否为双侧边栏模式
+const isBothSidebarMode = sidebarLayoutConfig.position === "both";
+
+// 类型定义以避免使用 any
+type BangumiPerson = { relation: string; name?: string };
+type BangumiTag = { name: string };
+type BangumiSubject = {
+  id: number;
+  name?: string;
+  name_cn?: string;
+  images?: { medium?: string };
+  short_summary?: string;
+  eps?: number;
+  tags?: BangumiTag[];
+  date?: string;
+};
+type BangumiCollectionItem = {
+  subject_id: number;
+  subject?: BangumiSubject;
+  rate?: number;
+  ep_status?: number;
+};
+type BangumiCollectionResponse = { data: BangumiCollectionItem[] };
+
 // 获取单个条目相关人员信息
-async function fetchSubjectPersons(subjectId: number) {
+async function fetchSubjectPersons(subjectId: number): Promise<BangumiPerson[]> {
 	try {
 		const response = await fetch(
 			`${BANGUMI_API_BASE}/v0/subjects/${subjectId}/persons`,
@@ -37,9 +61,9 @@ async function fetchBangumiCollection(
 	userId: string,
 	subjectType: number,
 	type: number,
-) {
+): Promise<BangumiCollectionResponse | null> {
 	try {
-		let allData: any[] = [];
+    let allData: BangumiCollectionItem[] = [];
 		let offset = 0;
 		const limit = 50;
 		let hasMore = true;
@@ -63,7 +87,7 @@ async function fetchBangumiCollection(
 			}
 			await new Promise((resolve) => setTimeout(resolve, 100));
 		}
-		return { data: allData };
+    return { data: allData };
 	} catch (error) {
 		console.error("Error fetching Bangumi data:", error);
 		return null;
@@ -71,11 +95,16 @@ async function fetchBangumiCollection(
 }
 
 // 获取Bangumi数据转换为页面所需格式
-async function processBangumiData(data: any, status: string) {
+import type { BookItem } from "../data/books";
+
+async function processBangumiData(
+  data: BangumiCollectionResponse,
+  status: BookItem["status"],
+): Promise<BookItem[]> {
 	if (!data || !data.data) return [];
 
-	const detailedItems = await Promise.all(
-		data.data.map(async (item: any) => {
+  const detailedItems: BookItem[] = await Promise.all(
+    data.data.map(async (item: BangumiCollectionItem) => {
 			const subjectPersons = await fetchSubjectPersons(item.subject_id);
 			const year = item.subject?.date || "Unknown";
 			const rating = item.rate ? Number.parseFloat(item.rate.toFixed(1)) : 0;
@@ -96,11 +125,11 @@ async function processBangumiData(data: any, status: string) {
 				}
 			}
 
-			return {
+      return {
 				title: item.subject?.name_cn || item.subject?.name || "Unknown Title",
-				status: status,
+        status: status,
 				rating: rating,
-				cover: item.subject?.images?.medium || "/assets/books/default.webp",
+        cover: item.subject?.images?.medium || "/assets/anime/default.webp",
 				description: (
 					item.subject?.short_summary ||
 					item.subject?.name_cn ||
@@ -108,11 +137,11 @@ async function processBangumiData(data: any, status: string) {
 				).trimStart(),
 				volumes: `${totalVolumes} volumes`,
 				year: year,
-				genre: item.subject?.tags
-					? item.subject.tags.slice(0, 3).map((tag: any) => tag.name)
-					: ["Unknown"],
+        genre: item.subject?.tags
+          ? item.subject.tags.slice(0, 3).map((tag: BangumiTag) => tag.name)
+          : ["Unknown"],
 				author: author,
-				link: `https://bgm.tv/subject/${item.subject.id}` || "#",
+        link: item.subject?.id ? `https://bgm.tv/subject/${item.subject.id}` : "#",
 				progress: progress,
 				totalVolumes: totalVolumes,
 				startDate: item.subject?.date || "",
@@ -129,9 +158,11 @@ if (BOOKS_MODE === "local") {
 	booksList = localBooksList;
 } else {
 	// 使用Bangumi API，subjectType=1 代表书籍
-	const readingData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 3);
-	const completedData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 2);
-	const plannedData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 1);
+  const readingData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 3);
+  const completedData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 2);
+  const plannedData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 1);
+  const onHoldData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 4);
+  const droppedData = await fetchBangumiCollection(BANGUMI_USER_ID, 1, 5);
 
 	const readingList = readingData
 		? await processBangumiData(readingData, "reading")
@@ -142,8 +173,20 @@ if (BOOKS_MODE === "local") {
 	const plannedList = plannedData
 		? await processBangumiData(plannedData, "planned")
 		: [];
+  const onHoldList = onHoldData
+    ? await processBangumiData(onHoldData, "onhold")
+    : [];
+  const droppedList = droppedData
+    ? await processBangumiData(droppedData, "dropped")
+    : [];
 
-	booksList = [...readingList, ...completedList, ...plannedList];
+  booksList = [
+    ...readingList,
+    ...plannedList,
+    ...completedList,
+    ...onHoldList,
+    ...droppedList,
+  ];
 }
 
 // 获取状态的翻译文本和样式
@@ -170,6 +213,20 @@ function getStatusInfo(status: string) {
 					"bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
 				icon: "⏰",
 			};
+    case "onhold":
+      return {
+        text: i18n(I18nKey.booksStatusOnHold),
+        class:
+          "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+        icon: "⏸",
+      };
+    case "dropped":
+      return {
+        text: i18n(I18nKey.booksStatusDropped),
+        class:
+          "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+        icon: "✗",
+      };
 		default:
 			return {
 				text: status,
@@ -215,6 +272,12 @@ const stats = {
             <button class="filter-tag" data-status="reading">{i18n(I18nKey.booksStatusReading)}</button>
             <button class="filter-tag" data-status="completed">{i18n(I18nKey.booksStatusCompleted)}</button>
             <button class="filter-tag" data-status="planned">{i18n(I18nKey.booksStatusPlanned)}</button>
+            {BOOKS_MODE === 'bangumi' && (
+              <>
+                <button class="filter-tag" data-status="onhold">{i18n(I18nKey.booksStatusOnHold)}</button>
+                <button class="filter-tag" data-status="dropped">{i18n(I18nKey.booksStatusDropped)}</button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -232,7 +295,9 @@ const stats = {
             </p>
           </div>
         ) : booksList.length > 0 ? (
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+          <div id="books-list-container" class={`books-grid-container grid gap-4 md:gap-6 list-mode ${
+            isBothSidebarMode ? "both-sidebar" : "single-sidebar"
+          }`}>
             {booksList.map(book => {
               const statusInfo = getStatusInfo(book.status);
               const progressPercent = book.totalVolumes > 0 ? (book.progress / book.totalVolumes) * 100 : 0;
@@ -326,115 +391,237 @@ const stats = {
     </div>
   </div>
 
-  <!-- 过滤按钮样式 -->
+  <script is:inline define:vars={{ isBothSidebarMode }}>
+  // 布局切换与列表动画（与 Anime 页面保持一致）
+  (function() {
+    setTimeout(() => {
+      const listContainer = document.getElementById("books-list-container");
+      if (!listContainer) return;
+
+      if (typeof window.layoutManager !== 'undefined') {
+        window.layoutManager.init(isBothSidebarMode);
+        const currentLayout = window.layoutManager.getLayout();
+        updateBooksListLayout(currentLayout);
+        window.layoutManager.checkScreenSizeAndAdjust();
+      } else {
+        setTimeout(() => {
+          if (typeof window.layoutManager !== 'undefined') {
+            window.layoutManager.init(isBothSidebarMode);
+            const currentLayout = window.layoutManager.getLayout();
+            updateBooksListLayout(currentLayout);
+            window.layoutManager.checkScreenSizeAndAdjust();
+          }
+        }, 300);
+      }
+    }, 50);
+
+    function updateBooksListLayout(layout) {
+      const listContainer = document.getElementById("books-list-container");
+      if (!listContainer) return;
+
+      const items = Array.from(document.querySelectorAll('[data-book-status]'));
+      const firstPositions = new Map();
+      items.forEach(item => {
+        const rect = item.getBoundingClientRect();
+        firstPositions.set(item, { left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+      });
+
+      listContainer.classList.remove("list-mode", "grid-mode");
+      if (layout === "grid") {
+        listContainer.classList.add("grid-mode");
+        listContainer.classList.add("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-3");
+        listContainer.classList.remove("flex", "flex-col");
+
+        const rightSidebar = document.querySelector('.right-sidebar-container');
+        if (rightSidebar) {
+          rightSidebar.style.display = 'none';
+          rightSidebar.classList.add('hidden-in-grid-mode');
+        }
+        const mainGrid = document.getElementById('main-grid');
+        if (mainGrid) {
+          mainGrid.style.gridTemplateColumns = '17.5rem 1fr';
+          mainGrid.classList.add('two-column-layout');
+          mainGrid.setAttribute('data-layout-mode', 'grid');
+        }
+      } else {
+        listContainer.classList.add("list-mode");
+        listContainer.classList.add("flex", "flex-col");
+        listContainer.classList.remove("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-3");
+
+        const rightSidebar = document.querySelector('.right-sidebar-container');
+        if (rightSidebar) {
+          rightSidebar.style.display = '';
+          rightSidebar.classList.remove('hidden-in-grid-mode');
+        }
+        const mainGrid = document.getElementById('main-grid');
+        if (mainGrid) {
+          mainGrid.style.gridTemplateColumns = '';
+          mainGrid.classList.remove('two-column-layout');
+          mainGrid.setAttribute('data-layout-mode', 'list');
+        }
+      }
+
+      requestAnimationFrame(() => {
+        const lastPositions = new Map();
+        items.forEach(item => {
+          const rect = item.getBoundingClientRect();
+          lastPositions.set(item, { left: rect.left, top: rect.top });
+        });
+
+        items.forEach(item => {
+          const first = firstPositions.get(item);
+          const last = lastPositions.get(item);
+          if (first && last) {
+            const dx = first.left - last.left;
+            const dy = first.top - last.top;
+            item.style.transition = 'none';
+            item.style.transform = `translate(${dx}px, ${dy}px)`;
+          }
+        });
+
+        requestAnimationFrame(() => {
+          items.forEach((item, index) => {
+            setTimeout(() => {
+              item.classList.add('anime-animating');
+              item.style.transition = '';
+              item.style.transform = '';
+            }, index * 20);
+          });
+          setTimeout(() => {
+            items.forEach(item => {
+              item.classList.remove('anime-animating');
+              item.style.transition = '';
+              item.style.transform = '';
+            });
+          }, 500 + items.length * 20);
+        });
+      });
+    }
+
+    window.addEventListener("layoutChange", (event) => {
+      updateBooksListLayout(event.detail.layout);
+    });
+  })();
+  </script>
+
+  <!-- 过滤按钮样式 & 网格容器样式（与 Anime 页面保持一致的行为） -->
   <style>
-    .filter-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    .card-base { container-type: inline-size; }
+
+    .books-grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    .filter-tag {
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--line-divider);
-      border-radius: var(--radius-large);
-      background: var(--btn-regular-bg);
-      color: var(--btn-content);
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
+    .books-grid-container.single-sidebar {
+      @container (min-width: 900px) { grid-template-columns: repeat(5, 1fr); }
+      @container (min-width: 600px) and (max-width: 899px) { grid-template-columns: repeat(3, 1fr); }
+      @container (max-width: 599px) { grid-template-columns: repeat(2, 1fr); }
     }
-    
-    .filter-tag:hover:not(.active) {
-      background: var(--btn-hover-bg);
-      border-color: var(--primary);
-      transform: translateY(-1px);
+    .books-grid-container.both-sidebar {
+      @container (min-width: 950px) { grid-template-columns: repeat(5, 1fr); }
+      @container (min-width: 650px) and (max-width: 949px) { grid-template-columns: repeat(4, 1fr); }
+      @container (min-width: 480px) and (max-width: 649px) { grid-template-columns: repeat(3, 1fr); }
+      @container (max-width: 479px) { grid-template-columns: repeat(2, 1fr); }
     }
-    
-    .filter-tag.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-    
-    .filter-tag.active:hover {
-      background: var(--primary) !important;
-      color: white !important;
-      border-color: var(--primary) !important;
-      transform: translateY(-1px);
-    }
+
+    .filter-container { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .filter-tag { padding: 0.5rem 1rem; border: 1px solid var(--line-divider); border-radius: var(--radius-large); background: var(--btn-regular-bg); color: var(--btn-content); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+    .filter-tag:hover:not(.active) { background: var(--btn-hover-bg); border-color: var(--primary); transform: translateY(-1px); }
+    .filter-tag.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .filter-tag.active:hover { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; transform: translateY(-1px); }
+
+    [data-book-status] { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    #books-list-container.grid-mode [data-book-status]:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 12px 24px rgba(0,0,0,0.15); z-index: 10; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    #books-list-container.list-mode [data-book-status]:hover { transform: translateX(8px) scale(1.01); box-shadow: 0 8px 16px rgba(0,0,0,0.1); z-index: 10; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    [data-book-status].anime-hidden { display: none; }
+    [data-book-status].anime-animating { transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s cubic-bezier(0.4,0,0.2,1); }
+    [data-book-status].anime-fade-out { opacity: 0; transform: scale(0.8); pointer-events: none; transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+    [data-book-status].anime-fade-in { opacity: 0; transform: scale(0.8); }
+    [data-book-status].anime-fade-in-active { opacity: 1; transform: scale(1); }
   </style>
 
-  <!-- 过滤功能脚本 -->
+  <!-- 过滤功能脚本（FLIP 动画） -->
   <script is:inline>
     let filterEventListeners = [];
-    
     function initFilterButtons() {
       const filterTags = document.querySelectorAll('.filter-tag');
-      
-      filterEventListeners.forEach(listener => {
-        const [element, type, handler] = listener;
-        element.removeEventListener(type, handler);
-      });
+      filterEventListeners.forEach(([el, type, handler]) => el.removeEventListener(type, handler));
       filterEventListeners = [];
-      
+
       filterTags.forEach(tag => {
         const clickHandler = function() {
+          if (this.classList.contains('active')) return;
           filterTags.forEach(t => t.classList.remove('active'));
           this.classList.add('active');
-          
+
           const status = this.getAttribute('data-status');
-          const bookItems = document.querySelectorAll('[data-book-status]');
-          
-          bookItems.forEach(item => {
-            if (status === 'all') {
-              item.classList.remove('hidden');
-            } else {
-              const itemStatus = item.getAttribute('data-book-status');
-              if (itemStatus === status) {
-                item.classList.remove('hidden');
-              } else {
-                item.classList.add('hidden');
-              }
-            }
+          const items = Array.from(document.querySelectorAll('[data-book-status]'));
+
+          const firstPositions = new Map();
+          items.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            firstPositions.set(item, { left: rect.left, top: rect.top, width: rect.width, height: rect.height });
           });
+
+          const itemsToHide = [], itemsToShow = [], itemsToKeep = [];
+          items.forEach(item => {
+            const itemStatus = item.getAttribute('data-book-status');
+            const shouldShow = status === 'all' || itemStatus === status;
+            const isVisible = !item.classList.contains('anime-hidden');
+            if (shouldShow) { isVisible ? itemsToKeep.push(item) : itemsToShow.push(item); }
+            else if (isVisible) { itemsToHide.push(item); }
+          });
+
+          itemsToHide.forEach(item => item.classList.add('anime-fade-out'));
+          setTimeout(() => {
+            itemsToHide.forEach(item => { item.classList.add('anime-hidden'); item.classList.remove('anime-fade-out'); });
+            itemsToShow.forEach(item => { item.classList.remove('anime-hidden'); item.classList.add('anime-fade-in'); item.style.opacity = '0'; item.style.transform = 'scale(0.8)'; item.style.transition = 'none'; });
+
+            requestAnimationFrame(() => {
+              const lastPositions = new Map();
+              [...itemsToKeep, ...itemsToShow].forEach(item => {
+                const rect = item.getBoundingClientRect();
+                lastPositions.set(item, { left: rect.left, top: rect.top });
+              });
+
+              itemsToKeep.forEach(item => {
+                const first = firstPositions.get(item); const last = lastPositions.get(item);
+                if (first && last) { const dx = first.left - last.left; const dy = first.top - last.top; item.style.transition='none'; item.style.transform = `translate(${dx}px, ${dy}px)`; }
+              });
+
+              requestAnimationFrame(() => {
+                const allItems = [...itemsToKeep, ...itemsToShow];
+                allItems.forEach((item, index) => {
+                  setTimeout(() => {
+                    item.classList.add('anime-animating');
+                    if (itemsToKeep.includes(item)) { item.style.transition = ''; item.style.transform = ''; }
+                    if (itemsToShow.includes(item)) { item.classList.remove('anime-fade-in'); item.classList.add('anime-fade-in-active'); item.style.transition=''; item.style.opacity='1'; item.style.transform='scale(1)'; }
+                  }, index * 20);
+                });
+                setTimeout(() => {
+                  allItems.forEach(item => { item.classList.remove('anime-animating','anime-fade-in-active'); item.style.transition=''; item.style.transform=''; item.style.opacity=''; });
+                }, 500 + allItems.length * 20);
+              });
+            });
+          }, 300);
         };
-        
         tag.addEventListener('click', clickHandler);
         filterEventListeners.push([tag, 'click', clickHandler]);
       });
-      
-      console.log('Books filter buttons initialized');
     }
-    
+
     document.addEventListener('DOMContentLoaded', initFilterButtons);
-    
     function setupSwupListeners() {
       if (window.swup) {
-        window.swup.hooks.on('content:replace', function() {
-          setTimeout(initFilterButtons, 150);
-        });
-        
-        window.swup.hooks.on('page:view', function() {
-          setTimeout(initFilterButtons, 150);
-        });
-        
-        window.swup.hooks.on('animation:in:end', function() {
-          setTimeout(initFilterButtons, 200);
-        });
+        window.swup.hooks.on('content:replace', function() { setTimeout(initFilterButtons, 150); });
+        window.swup.hooks.on('page:view', function() { setTimeout(initFilterButtons, 150); });
+        window.swup.hooks.on('animation:in:end', function() { setTimeout(initFilterButtons, 200); });
       }
     }
-    
     if (typeof window !== 'undefined') {
-      if (window.swup) {
-        setupSwupListeners();
-      } else {
-        document.addEventListener('swup:enable', function() {
-          setupSwupListeners();
-        });
-      }
+      if (window.swup) { setupSwupListeners(); }
+      else { document.addEventListener('swup:enable', function() { setupSwupListeners(); }); }
     }
   </script>
 </MainGridLayout>

@@ -1,7 +1,7 @@
 // 本地游戏数据配置
 export type GameItem = {
 	title: string;
-	status: "playing" | "completed" | "planned";
+	status: "playing" | "completed" | "planned" | "onhold" | "dropped";
 	rating: number;
 	cover: string;
 	description: string;
