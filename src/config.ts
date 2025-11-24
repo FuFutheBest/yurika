@@ -295,7 +295,7 @@ export const navBarConfig: NavBarConfig = {
           icon: "material-symbols:movie",
         },
         {
-          name: "Books",
+          name: "Bookshelf",
           url: "/books/",
           icon: "material-symbols:menu-book",
         },
@@ -421,7 +421,7 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 };
 
 export const commentConfig: CommentConfig = {
-  enable: false, // 启用评论功能。当设置为 false 时，评论组件将不会显示在文章区域。
+  enable: true, // 启用评论功能。当设置为 false 时，评论组件将不会显示在文章区域。
   twikoo: {
     envId: "https://yurika-twiko.netlify.app/.netlify/functions/twikoo",
     lang: "en", // 设置 Twikoo 评论系统语言为英文

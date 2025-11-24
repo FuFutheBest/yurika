@@ -15,7 +15,7 @@ pubDate: 2025-10-29
 
 This blog will keep updating with the problems and solutions I encountered while using Arch Linux.
 
-## System Info
+# System Info
 
 `````sh
 ~> fastfetch -c ~/.config/fastfetch/safe_config.jsonc
@@ -48,9 +48,11 @@ This blog will keep updating with the problems and solutions I encountered while
 
 (last updated: 2025-11-15)
 
-## Grub
+---
 
-#### Open Secure Boot with Arch&Windows Dual Boot (双系统下开启安全启动)
+# Grub
+
+## Open Secure Boot with Arch&Windows Dual Boot (双系统下开启安全启动)
 
 Secure Boot is a security feature in a computer's firmware that ensures the system starts up using only ~~trusted and sate~~ Microsoft software, during the Arch Linux installation process, it is usually chosen to be disabled.
 However, due to some reasons, it is necessary to enable Secure Boot.
@@ -76,13 +78,15 @@ In short, the steps to enable Secure Boot in a dual-boot system with Arch Linux 
 
 [Detailed Guide (优质博客)](https://blog.azurezeng.com/arch-linux-grub-sb-with-font-and-some-optimization/)
 
-## Hyprland
+---
 
-#### How to Disable Touchpad ? (禁用触摸板)
+# Hyprland
+
+## How to Disable Touchpad ? (禁用触摸板)
 
 <a href="/posts/25_10_29_hypr_disable_touchpad/">Disable Touchpad in Hyprland</a>
 
-#### Fail to launch Timeshift with Hyprland (Hyprland 下无法启动 Timeshift)
+## Fail to launch Timeshift GUI with Hyprland (Hyprland 下无法启动 Timeshift GUI)
 
 logs:
 
@@ -102,7 +106,7 @@ Solution:
 sudo pacman -S xorg-xhost
 ```
 
-#### AUR Wechat can't use fcitx5 input method (AUR 微信无法使用 fcitx5 输入法)
+## AUR Wechat can't use fcitx5 input method (AUR 微信无法使用 fcitx5 输入法)
 
 Edit `/usr/share/applications/wechat.desktop`
 
@@ -110,13 +114,15 @@ Edit `/usr/share/applications/wechat.desktop`
 Exec=env QT_QPA_PLATFORM=xcb GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx /opt/wechat/wechat %U
 ```
 
-#### Updating Issues (更新相关问题)
+## Updating Issues (更新相关问题)
 
 - <a href="/posts/25_11_09_update_to_hypr0.52.md">Dependency Issue when updating to Hyprland 0.52</a>
 
-## Hardware
+---
 
-#### The keyboard backlight and the back light strip on my ASUS laptop are not working. (华硕笔记本键盘背光和背光条不工作)
+# Hardware
+
+## The keyboard backlight and the back light strip on my ASUS laptop are not working. (华硕笔记本键盘背光和背光条不工作)
 
 ```sh
 sudo pacman -S asusctl
@@ -124,9 +130,11 @@ sudo pacman -S asusctl
 
 ::github{repo="NeroReflex/asusctl"}
 
-## Other
+---
 
-#### VPNS && Privacy (魔法和隐私保护)
+# Other
+
+## VPNS && Privacy (魔法和隐私保护)
 
 - [VPNs](https://arch.icekylin.online/guide/rookie/transparent.html#v2raya)
 - [Hogwarts](https://archlinuxstudio.github.io/ArchLinuxTutorial/#/rookie/fxckGFW?id=%e5%b7%b2%e6%9c%89%e7%a7%91%e5%ad%a6%e4%b8%8a%e7%bd%91%e7%9a%84%e8%8a%82%e7%82%b9%e7%9a%84%e6%83%85%e5%86%b5)
