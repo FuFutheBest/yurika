@@ -7,7 +7,7 @@ tags: [Update Note, Hyprland, Linux, Arch]
 category: Linux
 licenseName: "Unlicensed"
 author: FuFu
-draft: false
+draft: true
 date: 2025-11-09
 pubDate: 2025-11-09
 ---
