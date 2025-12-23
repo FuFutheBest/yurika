@@ -1,9 +1,9 @@
 import type {
-  DARK_MODE,
-  LIGHT_MODE,
-  WALLPAPER_BANNER,
-  WALLPAPER_FULLSCREEN,
-  WALLPAPER_NONE,
+	DARK_MODE,
+	LIGHT_MODE,
+	WALLPAPER_BANNER,
+	WALLPAPER_FULLSCREEN,
+	WALLPAPER_NONE,
 } from "../constants/constants";
 
 export type SiteConfig = {
@@ -13,32 +13,44 @@ export type SiteConfig = {
   keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">
   siteStartDate?: string; // 站点开始日期，格式：YYYY-MM-DD，用于计算运行天数
 
-  timeZone:
-    | -12
-    | -11
-    | -10
-    | -9
-    | -8
-    | -7
-    | -6
-    | -5
-    | -4
-    | -3
-    | -2
-    | -1
-    | 0
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 11
-    | 12;
+	timeZone:
+		| -12
+		| -11
+		| -10
+		| -9
+		| -8
+		| -7
+		| -6
+		| -5
+		| -4
+		| -3
+		| -2
+		| -1
+		| 0
+		| 1
+		| 2
+		| 3
+		| 4
+		| 5
+		| 6
+		| 7
+		| 8
+		| 9
+		| 10
+		| 11
+		| 12;
+
+	lang:
+		| "en"
+		| "zh_CN"
+		| "zh_TW"
+		| "ja"
+		| "ko"
+		| "es"
+		| "th"
+		| "vi"
+		| "tr"
+		| "id";
 
   lang:
     | "en"
@@ -75,6 +87,12 @@ export type SiteConfig = {
   postListLayout: {
     defaultMode: "list" | "grid"; // 默认布局模式：list=列表模式，grid=网格模式
     allowSwitch: boolean; // 是否允许用户切换布局
+  };
+
+  // 壁纸模式配置
+  wallpaperMode: {
+    defaultMode: "banner" | "fullscreen" | "none";
+    showModeSwitchOnMobile: "off" | "mobile" | "desktop" | "both";
   };
 
   // 顶栏标题配置
@@ -114,72 +132,58 @@ export type SiteConfig = {
     mode?: "bangumi" | "local"; // 书籍页面模式
   };
 
-  // 游戏页面配置
-  games?: {
-    mode?: "bangumi" | "local"; // 游戏页面模式
-  };
-
-  // 标签样式配置
-  tagStyle?: {
-    useNewStyle?: boolean; // 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
-  };
-
-  // 壁纸模式配置
-  wallpaperMode: {
-    defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-    showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
-  };
-
-  banner: {
-    src:
-      | string
-      | string[]
-      | {
-          desktop?: string | string[];
-          mobile?: string | string[];
-        }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
-    position?: "top" | "center" | "bottom";
-    carousel?: {
-      enable: boolean; // 是否启用轮播
-      interval: number; // 轮播间隔时间（秒）
-    };
-    waves?: {
-      enable: boolean; // 是否启用水波纹效果
-      performanceMode?: boolean; // 性能模式：减少动画复杂度
-      mobileDisable?: boolean; // 移动端禁用
-    };
-    imageApi?: {
-      enable: boolean; // 是否启用图片API
-      url: string; // API地址，返回每行一个图片链接的文本
-    };
-    homeText?: {
-      enable: boolean; // 是否在首页显示自定义文字
-      title?: string; // 主标题
-      subtitle?: string | string[]; // 副标题，支持单个字符串或字符串数组
-      typewriter?: {
-        enable: boolean; // 是否启用打字机效果
-        speed: number; // 打字速度（毫秒）
-        deleteSpeed: number; // 删除速度（毫秒）
-        pauseTime: number; // 完整显示后的暂停时间（毫秒）
-      };
-    };
-    credit: {
-      enable: boolean;
-      text: string;
-      url?: string;
-    };
-    navbar?: {
-      transparentMode?: "semi" | "full" | "semifull"; // 导航栏透明模式
-    };
-  };
-  toc: {
-    enable: boolean;
-    depth: 1 | 2 | 3;
-    useJapaneseBadge?: boolean; // 使用日语假名标记（あいうえお...）代替数字
-  };
-  generateOgImages: boolean;
-  favicon: Favicon[];
-  showLastModified: boolean; // 控制“上次编辑”卡片显示的开关
+	banner: {
+		src:
+			| string
+			| string[]
+			| {
+					desktop?: string | string[];
+					mobile?: string | string[];
+			  }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
+		position?: "top" | "center" | "bottom";
+		carousel?: {
+			enable: boolean; // 是否启用轮播
+			interval: number; // 轮播间隔时间（秒）
+		};
+		waves?: {
+			enable: boolean; // 是否启用水波纹效果
+			performanceMode?: boolean; // 性能模式：减少动画复杂度
+			mobileDisable?: boolean; // 移动端禁用
+		};
+		imageApi?: {
+			enable: boolean; // 是否启用图片API
+			url: string; // API地址，返回每行一个图片链接的文本
+		};
+		homeText?: {
+			enable: boolean; // 是否在首页显示自定义文字
+			title?: string; // 主标题
+			subtitle?: string | string[]; // 副标题，支持单个字符串或字符串数组
+			typewriter?: {
+				enable: boolean; // 是否启用打字机效果
+				speed: number; // 打字速度（毫秒）
+				deleteSpeed: number; // 删除速度（毫秒）
+				pauseTime: number; // 完整显示后的暂停时间（毫秒）
+			};
+		};
+		credit: {
+			enable: boolean;
+			text: string;
+			url?: string;
+		};
+		navbar?: {
+			transparentMode?: "semi" | "full" | "semifull"; // 导航栏透明模式
+		};
+	};
+	toc: {
+		enable: boolean;
+		mode: "float" | "sidebar"; // 目录显示模式："float" 悬浮按钮模式，"sidebar" 侧边栏模式
+		depth: 1 | 2 | 3;
+		useJapaneseBadge?: boolean; // 使用日语假名标记（あいうえお...）代替数字
+	};
+	showCoverInContent: boolean; // 控制文章封面在文章内容页显示的开关
+	generateOgImages: boolean;
+	favicon: Favicon[];
+	showLastModified: boolean; // 控制“上次编辑”卡片显示的开关
 };
 
 export type Favicon = {
@@ -233,6 +237,33 @@ export type LicenseConfig = {
   name: string;
   url: string;
 };
+
+// Permalink 配置
+export type PermalinkConfig = {
+	enable: boolean; // 是否启用全局 permalink 功能
+	/**
+	 * permalink 格式模板
+	 * 支持的占位符：
+	 * - %year% : 4位年份 (2024)
+	 * - %monthnum% : 2位月份 (01-12)
+	 * - %day% : 2位日期 (01-31)
+	 * - %hour% : 2位小时 (00-23)
+	 * - %minute% : 2位分钟 (00-59)
+	 * - %second% : 2位秒数 (00-59)
+	 * - %post_id% : 文章序号（按发布时间升序排列）
+	 * - %postname% : 文章文件名（slug）
+	 * - %category% : 分类名（无分类时为 "uncategorized"）
+	 *
+	 * 示例：
+	 * - "%year%-%monthnum%-%postname%" => "2024-12-my-post"
+	 * - "%post_id%-%postname%" => "42-my-post"
+	 * - "%category%-%postname%" => "tech-my-post"
+	 *
+	 * 注意：不支持斜杠 "/"，所有生成的链接都在根目录下
+	 */
+	format: string;
+};
+
 // 评论配置
 
 export type CommentConfig = {
@@ -249,9 +280,9 @@ type TwikooConfig = {
 export type LIGHT_DARK_MODE = typeof LIGHT_MODE | typeof DARK_MODE;
 
 export type WALLPAPER_MODE =
-  | typeof WALLPAPER_BANNER
-  | typeof WALLPAPER_FULLSCREEN
-  | typeof WALLPAPER_NONE;
+	| typeof WALLPAPER_BANNER
+	| typeof WALLPAPER_FULLSCREEN
+	| typeof WALLPAPER_NONE;
 
 export type BlogPostData = {
   body: string;

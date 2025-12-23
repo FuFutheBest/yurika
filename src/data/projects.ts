@@ -113,12 +113,14 @@ export const projectsData: Project[] = [
 
 // Get project statistics
 export const getProjectStats = () => {
-  const total = projectsData.length;
-  const completed = projectsData.filter((p) => p.status === "completed").length;
-  const inProgress = projectsData.filter(
-    (p) => p.status === "in-progress",
-  ).length;
-  const planned = projectsData.filter((p) => p.status === "planned").length;
+	const total = projectsData.length;
+	const completed = projectsData.filter(
+		(p) => p.status === "completed",
+	).length;
+	const inProgress = projectsData.filter(
+		(p) => p.status === "in-progress",
+	).length;
+	const planned = projectsData.filter((p) => p.status === "planned").length;
 
   return {
     total,

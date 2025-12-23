@@ -85,9 +85,11 @@ export const getDiaryWithImages = () => {
 
 // 根据标签筛选日记
 export const getDiaryByTag = (tag: string) => {
-  return diaryData
-    .filter((item) => item.tags?.includes(tag))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+	return diaryData
+		.filter((item) => item.tags?.includes(tag))
+		.sort(
+			(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+		);
 };
 
 // 获取所有标签

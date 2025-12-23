@@ -190,7 +190,8 @@ export const ja: Translation = {
 	[Key.rssHowToUse]:
 		"Feedly、Inoreaderまたは他のRSSリーダーを使用してこのサイトを購読することを推奨します。",
 	[Key.rssCopied]: "RSSリンクがクリップボードにコピーされました！",
-	[Key.rssCopyFailed]: "コピーに失敗しました。手動でリンクをコピーしてください",
+	[Key.rssCopyFailed]:
+		"コピーに失敗しました。手動でリンクをコピーしてください",
 
 	// Atomページ
 	[Key.atom]: "Atomフィード",
@@ -211,7 +212,8 @@ export const ja: Translation = {
 	[Key.atomHowToUse]:
 		"Feedly、Inoreaderまたは他のAtomリーダーを使用してこのサイトを購読することを推奨します。",
 	[Key.atomCopied]: "Atomリンクがクリップボードにコピーされました！",
-	[Key.atomCopyFailed]: "コピーに失敗しました。手動でリンクをコピーしてください",
+	[Key.atomCopyFailed]:
+		"コピーに失敗しました。手動でリンクをコピーしてください",
 
 	// スキルページ
 	[Key.skills]: "スキル",
@@ -266,7 +268,8 @@ export const ja: Translation = {
 
 	// パスワード保護
 	[Key.passwordProtected]: "パスワード保護",
-	[Key.passwordProtectedTitle]: "このコンテンツはパスワードで保護されています",
+	[Key.passwordProtectedTitle]:
+		"このコンテンツはパスワードで保護されています",
 	[Key.passwordProtectedDescription]:
 		"保護されたコンテンツを表示するにはパスワードを入力してください",
 	[Key.passwordPlaceholder]: "パスワードを入力",
