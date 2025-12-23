@@ -26,16 +26,6 @@ interface Post {
 	};
 }
 
-// 辅助函数：根据文章数据生成正确的 URL
-function getPostUrl(post: Post): string {
-	// 如果文章有自定义固定链接，优先使用固定链接
-	if (post.data.permalink) {
-		return getPostUrlByPermalink(post.data.permalink);
-	}
-	// 否则使用默认的 slug 路径
-	return getPostUrlBySlug(post.slug);
-}
-
 interface Group {
 	year: number;
 	posts: Post[];
@@ -123,7 +113,6 @@ onMount(async () => {
             {#each group.posts as post}
                 <a
                         href={post.url || `/posts/${post.id}/`}
->>>>>>> mizuki-template
                         aria-label={post.data.title}
                         class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]"
                 >

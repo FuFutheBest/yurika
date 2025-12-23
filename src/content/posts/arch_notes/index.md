@@ -1,7 +1,7 @@
 ---
 title: Arch Notes
 published: 2025-10-29
-pinned: true
+pinned: false
 description: A collection of the problems and solutions I encountered while using Arch Linux.
 tags: [Linux, Arch, Hyprland, Configuration]
 category: Linux
@@ -20,34 +20,32 @@ This blog will keep updating with the problems and solutions I encountered while
 `````sh
 ~> fastfetch -c ~/.config/fastfetch/safe_config.jsonc
 
-                  -`                     ┌───────────────┬─────── fastfetch - 2.55.0 ────────────────────┐
+                  -`                     ┌───────────────┬─────── fastfetch - 2.56.1 ────────────────────┐
                  .o+`                    │    Linux     │ Arch Linux x86_64                             │
-                `ooo/                    │    Fetched   │ 2025-11-15 15:58:47 CST                       │
+                `ooo/                    │    Fetched   │ 2025-12-23 22:35:22 CST                       │
                `+oooo:                   │    Locale    │ en_US.UTF-8                                   │
               `+oooooo:                  │┌──────────────┬─────────── Desktop ──────────────────────────┐│
-              -+oooooo+:                 ││   Session   │ Hyprland 0.52.1 (Wayland)                    ││
+              -+oooooo+:                 ││   Session   │ Hyprland 0.52.2 (Wayland)                    ││
             `/:-:++oooo+:                ││ 󰍹  Display   │ 2560x1600 @ 240Hz                            ││
-           `/++++/+++++++:               ││ 󰾲  G-Driver  │ nvidia (proprietary) 580.105.08              ││
+           `/++++/+++++++:               ││ 󰾲  G-Driver  │ nvidia (open source) 590.48.01               ││
           `/++++++++++++++:              ││ 󰾲  G-Driver  │ i915                                         ││
          `/+++ooooooooooooo/`            │└──────────────┴──────────────────────────────────────────────┘│
         ./ooosssso++osssssso+`           │┌──────────────┬─────────── Terminal ─────────────────────────┐│
        .oossssso-````/ossssss+`          ││   Shell     │ fish 4.2.1                                   ││
       -osssssso.      :ssssssso.         ││   Terminal  │ kitty 0.44.0                                 ││
-     :osssssss/        osssso+++.        ││   Term Font │ JetBrainsMonoNF-Regular (16pt)               ││
-    /ossssssss/        +ssssooo/-        ││ 󰏖  Packages  │ 1910 (pacman), 22 (flatpak)                  ││
-  `/ossssso+/:-        -:/+osssso+-      │└──────────────┴──────────────────────────────────────────────┘│
- `+sso+:-`                 `.-/+oso:     │┌──────────────┬───────── Development ────────────────────────┐│
-`++:.                           `-/+/    ││   Rust      │ rustc 1.91.1                                 ││
-.`                                 `/    ││   Clang     │ clang 21.1.5                                 ││
-                                         ││   NodeJS    │ node 25.2.0                                  ││
-                                         ││   Go        │ go 1.25.4                                    ││
-                                         ││ 󰊢  Git       │ git 2.51.2                                   ││
+     :osssssss/        osssso+++.        ││   Term Font │ JetBrainsMonoNF-Regular (18pt)               ││
+    /ossssssss/        +ssssooo/-        ││ 󰔎  Colors    │ #EFD3C9 (FG) - #221819 (BG) [Dark]           ││
+  `/ossssso+/:-        -:/+osssso+-      ││ 󰏖  Packages  │ 1929 (pacman), 17 (flatpak)                  ││
+ `+sso+:-`                 `.-/+oso:     │└──────────────┴──────────────────────────────────────────────┘│
+`++:.                           `-/+/    │┌──────────────┬───────── Development ────────────────────────┐│
+.`                                 `/    ││   Rust      │ rustc 1.92.0                                 ││
+                                         ││   Clang     │ clang 21.1.6                                 ││
+                                         ││   NodeJS    │ node 25.2.1                                  ││
+                                         ││   Go        │ go 1.25.5                                    ││
+                                         ││ 󰊢  Git       │ git 2.52.0                                   ││
                                          │└──────────────┴──────────────────────────────────────────────┘│
                                          └───────────────────────────────────────────────────────────────┘
 `````
-
-(last updated: 2025-11-15)
-
 ---
 
 # Grub
